@@ -1,0 +1,82 @@
+input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 6px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  h1{
+      font-size: 15px;
+      font-weight: bold;
+  }
+  h2{
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .customButton{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 6px 0;
+    display: inline-block;
+  }
+
+  ul{
+    list-style-type: none;
+    padding: 0px 0px;
+    margin: 0px 0;
+  }
+
+   /*centralizar texto corpo*/
+   :host /deep/ ng2-smart-table tbody{
+    text-align: center;
+  }
+
+  :host /deep/ ng2-smart-table thead th{
+    text-align: center;
+    width: 50px;
+  }
+
+  :host /deep/ ng2-smart-table thead input-filter input{
+    text-align: center;
+}
+
+:host /deep/ ng2-smart-table thead select-filter select {
+  height: calc(2rem + 4px) !important;
+  padding: 0 10px !important;
+}
+
+table-cell-default-editor select-editor select {
+  height: calc(2rem + 8px) !important;
+  padding: 0 10px !important;
+}
+
+select{
+  height: 500px;
+}
+
+.ano{
+  width: 100px;
+}
+
+.data{
+  width: 115px;
+}
+
+.espacoCima{
+  padding-top: 12px;
+}
+
+select {
+  width: auto;
+  padding: 12px 20px;
+  margin: 6px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+

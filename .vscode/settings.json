@@ -1,0 +1,13 @@
+{
+    "typescript.tsdk": "node_modules\\typescript\\lib",
+    "typescript.format.insertSpaceAfterTypeAssertion": true,
+    "editor.formatOnType": true,
+    "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+    "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "window.zoomLevel": 1,
+    "editor.fontSize": 13,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "html.format.indentInnerHtml": true
+}

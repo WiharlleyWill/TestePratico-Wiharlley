@@ -1,0 +1,128 @@
+<nb-card>
+  <nb-card-header>
+    CADASTRAR VEÍCULO
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="cadastroForm" (ngSubmit)="cadastrarCliente()">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-auto">
+            <h1>Dados do Veículo</h1>
+          </div>
+          <div class="col-sm">
+            <hr />
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-auto">
+            <label>Placa</label>
+            <input max="10" type="text" formControlName="placa" class="form-control" maxlength="10" oninput="this.value = this.value.toUpperCase()"
+              [ngClass]="{ 'is-invalid': submitted && f.placa.errors }" />
+            <div *ngIf="submitted && f.placa.errors" class="invalid-feedback">
+              <div *ngIf="f.placa.errors.required">Informe corretamente a placa</div>
+              <div *ngIf="f.placa.errors.minlength">O campo deve possuir 10 caracteres</div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <label>Ativo</label>
+            <div style="white-space:pre-line"></div>
+            <div style="margin-top: -4px">
+              <select class="form-control" (change)="change = true" formControlName="ativo" (ngModelChange)='ativoAlterado($event)'>
+                <option *ngFor=" let emp of employeeAtivo" [value]="emp.Id">{{emp.Name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-auto">
+            <label>Ano de Fabricação</label>
+            <div style="white-space:pre-line"></div>
+            <div style="margin-top: -4px">
+              <select class="form-control" (change)="change = true" formControlName="anoFabricacao">
+                <option *ngFor=" let emp of employeeAnoFabricacao" [value]="emp.value">{{emp.Name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-auto">
+            <label>Ano do Modelo</label>
+            <div style="white-space:pre-line"></div>
+            <div style="margin-top: -4px">
+              <select class="form-control" (change)="change = true" formControlName="anoModelo">
+                <option *ngFor=" let emp of employeeAnoModelo" [value]="emp.value">{{emp.Name}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-5">
+            <label>Chassi</label>
+            <input type="text" formControlName="chassi" class="form-control" maxlength="40"
+              [ngClass]="{ 'is-invalid': submitted && f.chassi.errors }" />
+            <div *ngIf="submitted && f.chassi.errors" class="invalid-feedback">
+              <div *ngIf="f.chassi.errors.required">Informe corretamente o Chassi</div>
+              <div *ngIf="f.chassi.errors.minlength">O campo deve possuir 40 caracteres</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-auto">
+            <label>Data de Cadastro</label>
+            <div style="white-space:pre-line"></div>
+            <input type="text" class="form-control data" formControlName="dtCadastro" />
+          </div>
+          <div class="col-auto">
+            <label>Data de Desativação</label>
+            <div style="white-space:pre-line"></div>
+            <input type="text" class="form-control data" formControlName="dtDesativacao"/>
+          </div>
+          <div class="col-sm-4">
+            <label>Modelo</label>
+            <input type="text" formControlName="modelo" class="form-control" maxlength="30"
+              [ngClass]="{ 'is-invalid': submitted && f.modelo.errors }" />
+            <div *ngIf="submitted && f.modelo.errors" class="invalid-feedback">
+              <div *ngIf="f.modelo.errors.required">Informe corretamente o Modelo</div>
+              <div *ngIf="f.modelo.errors.minlength">O campo deve possuir 30 caracteres</div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <label>Cor</label>
+            <input type="text" formControlName="cor" class="form-control" maxlength="20"
+              [ngClass]="{ 'is-invalid': submitted && f.cor.errors }" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="row">
+          <div class="col-auto">
+            <label>Consumo Médio (KM)</label>
+            <div style="white-space:pre-line"></div>
+            <div style="margin-top: 8px">
+              <p-spinner (change)="change = true" size="3" formControlName="consumoMedio" [min]="1" required>
+              </p-spinner>
+            </div>
+          </div>
+
+          <div class="col-auto">
+              <label>Quantidade de Passageiros</label>
+              <div style="white-space:pre-line"></div>
+              <div style="margin-top: 8px">
+                <p-spinner (change)="change = true" size="3" formControlName="quantPassageiros" [min]="1" required>
+                </p-spinner>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="form-group mt-4">
+        <button class="btn btn-success">Salvar</button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>
