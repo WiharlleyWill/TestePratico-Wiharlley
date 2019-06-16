@@ -12,12 +12,15 @@ import { TextMaskModule } from "angular2-text-mask";
 import { ModalModule } from 'angular-custom-modal'
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { CurrencyMaskModule } from "ng2-currency-mask";
-import { CadastroVeiculosComponent } from './cadastro-veiculos/cadastro-veiculos.component'
 import { SpinnerModule } from 'primeng/spinner';
+import { CadastroVeiculosComponent } from './cadastro-veiculos/cadastro-veiculos.component'
+import { CadastroFuncionarioComponent } from './cadastro-funcionario/cadastro-funcionario.component';
+import { CalendarModule } from 'primeng/calendar';
 
 const PAGES_COMPONENTS = [
     PagesComponent,
-    CadastroVeiculosComponent
+    CadastroVeiculosComponent,
+    CadastroFuncionarioComponent
 ];
 
 @NgModule({
@@ -33,7 +36,8 @@ const PAGES_COMPONENTS = [
         AngularFontAwesomeModule,
         CurrencyMaskModule,
         SpinnerModule,
-        NbDatepickerModule.forRoot()
+        NbDatepickerModule.forRoot(),
+        CalendarModule
     ],
     declarations: [
         ...PAGES_COMPONENTS,

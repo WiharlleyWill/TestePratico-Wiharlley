@@ -19,7 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CurrencyMaskModule } from "ng2-currency-mask";
 import { HttpModule } from '@angular/http';
 import { SpinnerModule } from 'primeng/spinner';
-
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
     declarations: [AppComponent, LoginComponent],
@@ -40,7 +40,8 @@ import { SpinnerModule } from 'primeng/spinner';
         CurrencyMaskModule,
         HttpModule,
         SpinnerModule,
-        NbDatepickerModule.forRoot()
+        NbDatepickerModule.forRoot(),
+        CalendarModule
     ],
     bootstrap: [AppComponent],
     providers: [

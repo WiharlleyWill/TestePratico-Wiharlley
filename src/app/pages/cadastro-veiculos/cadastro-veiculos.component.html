@@ -3,7 +3,7 @@
     CADASTRAR VEÍCULO
   </nb-card-header>
   <nb-card-body>
-    <form [formGroup]="cadastroForm" (ngSubmit)="cadastrarCliente()">
+    <form [formGroup]="cadastroForm" (ngSubmit)="cadastrarVeiculo()">
       <div class="form-group">
         <div class="row">
           <div class="col-auto">
@@ -16,9 +16,10 @@
       </div>
       <div class="form-group">
         <div class="row">
-          <div class="col-auto">
+          <div class="col-sm-2">
             <label>Placa</label>
-            <input max="10" type="text" formControlName="placa" class="form-control" maxlength="10" oninput="this.value = this.value.toUpperCase()"
+            <input max="10" type="text" formControlName="placa" class="form-control" maxlength="10"
+              oninput="this.value = this.value.toUpperCase()"
               [ngClass]="{ 'is-invalid': submitted && f.placa.errors }" />
             <div *ngIf="submitted && f.placa.errors" class="invalid-feedback">
               <div *ngIf="f.placa.errors.required">Informe corretamente a placa</div>
@@ -29,7 +30,8 @@
             <label>Ativo</label>
             <div style="white-space:pre-line"></div>
             <div style="margin-top: -4px">
-              <select class="form-control" (change)="change = true" formControlName="ativo" (ngModelChange)='ativoAlterado($event)'>
+              <select class="form-control" (change)="change = true" formControlName="ativo"
+                (ngModelChange)='ativoAlterado($event)'>
                 <option *ngFor=" let emp of employeeAtivo" [value]="emp.Id">{{emp.Name}}
                 </option>
               </select>
@@ -75,14 +77,14 @@
           <div class="col-auto">
             <label>Data de Cadastro</label>
             <div style="white-space:pre-line"></div>
-            <input type="text" class="form-control data" formControlName="dtCadastro" />
+            <input type="text" class="form-control inputData" formControlName="dtCadastro" />
           </div>
           <div class="col-auto">
             <label>Data de Desativação</label>
             <div style="white-space:pre-line"></div>
-            <input type="text" class="form-control data" formControlName="dtDesativacao"/>
+            <input type="text" class="form-control inputData alignCenter" formControlName="dtDesativacao" />
           </div>
-          <div class="col-sm-4">
+          <div class="col-auto">
             <label>Modelo</label>
             <input type="text" formControlName="modelo" class="form-control" maxlength="30"
               [ngClass]="{ 'is-invalid': submitted && f.modelo.errors }" />
@@ -91,7 +93,7 @@
               <div *ngIf="f.modelo.errors.minlength">O campo deve possuir 30 caracteres</div>
             </div>
           </div>
-          <div class="col-sm-3">
+          <div class="col-auto">
             <label>Cor</label>
             <input type="text" formControlName="cor" class="form-control" maxlength="20"
               [ngClass]="{ 'is-invalid': submitted && f.cor.errors }" />
@@ -105,19 +107,22 @@
             <label>Consumo Médio (KM)</label>
             <div style="white-space:pre-line"></div>
             <div style="margin-top: 8px">
-              <p-spinner (change)="change = true" size="3" formControlName="consumoMedio" [min]="1" required>
-              </p-spinner>
+              <p-spinner (change)="change = true" size="3" formControlName="consumoMedio" [min]="1" required
+                [ngClass]="{ 'is-invalid': submitted && f.consumoMedio.errors }"></p-spinner>
+              <div *ngIf="submitted && f.consumoMedio.errors" class="invalid-feedback">
+                <div *ngIf="f.consumoMedio.errors.required">Informe corretamente o Consumo Médio</div>
+              </div>
             </div>
           </div>
 
           <div class="col-auto">
-              <label>Quantidade de Passageiros</label>
-              <div style="white-space:pre-line"></div>
-              <div style="margin-top: 8px">
-                <p-spinner (change)="change = true" size="3" formControlName="quantPassageiros" [min]="1" required>
-                </p-spinner>
-              </div>
+            <label>Quantidade de Passageiros</label>
+            <div style="white-space:pre-line"></div>
+            <div style="margin-top: 8px">
+              <p-spinner (change)="change = true" size="3" formControlName="quantPassageiros" [min]="1" required>
+              </p-spinner>
             </div>
+          </div>
         </div>
       </div>
       <div class="form-group mt-4">

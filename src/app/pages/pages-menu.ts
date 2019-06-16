@@ -16,10 +16,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: "Veículo",
                 link: "cadastro-veiculo",
             },
-            /*{
-                title: "Empresa",
-                //link: "novo-vendedor",
+            {
+                title: "Funcionário",
+                link: "novo-funcionario",
             },
+            /*
             {
                 title: "Franquia",
                 //link: "subAdmin",

@@ -4,6 +4,7 @@ import { PagesComponent } from "./pages.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { AuthGuard } from "../services/auth/auth.guard";
 import { CadastroVeiculosComponent } from './cadastro-veiculos/cadastro-veiculos.component'
+import { CadastroFuncionarioComponent } from './cadastro-funcionario/cadastro-funcionario.component';
 
 const routes: Routes = [{
     path: "",
@@ -18,6 +19,11 @@ const routes: Routes = [{
         {
             path: "cadastro-veiculo",
             component: CadastroVeiculosComponent,
+           // canActivate: [AuthGuard],
+        },
+        {
+            path: "novo-funcionario",
+            component: CadastroFuncionarioComponent,
            // canActivate: [AuthGuard],
         },
         {

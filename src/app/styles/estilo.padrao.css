@@ -1,47 +1,50 @@
 input {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 6px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  h1{
-      font-size: 15px;
-      font-weight: bold;
-  }
-  h2{
-    font-size: 17px;
-    font-weight: bold;
-  }
+  width: 100%;
+  padding: 12px 20px;
+  margin: 6px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 
-  .customButton{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 6px 0;
-    display: inline-block;
-  }
+h1 {
+  font-size: 15px;
+  font-weight: bold;
+}
 
-  ul{
-    list-style-type: none;
-    padding: 0px 0px;
-    margin: 0px 0;
-  }
+h2 {
+  font-size: 17px;
+  font-weight: bold;
+}
 
-   /*centralizar texto corpo*/
-   :host /deep/ ng2-smart-table tbody{
-    text-align: center;
-  }
+.customButton {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 6px 0;
+  display: inline-block;
+}
 
-  :host /deep/ ng2-smart-table thead th{
-    text-align: center;
-    width: 50px;
-  }
+ul {
+  list-style-type: none;
+  padding: 0px 0px;
+  margin: 0px 0;
+}
 
-  :host /deep/ ng2-smart-table thead input-filter input{
-    text-align: center;
+
+/*centralizar texto corpo*/
+
+:host /deep/ ng2-smart-table tbody {
+  text-align: center;
+}
+
+:host /deep/ ng2-smart-table thead th {
+  text-align: center;
+  width: 50px;
+}
+
+:host /deep/ ng2-smart-table thead input-filter input {
+  text-align: center;
 }
 
 :host /deep/ ng2-smart-table thead select-filter select {
@@ -54,19 +57,19 @@ table-cell-default-editor select-editor select {
   padding: 0 10px !important;
 }
 
-select{
+select {
   height: 500px;
 }
 
-.ano{
+.ano {
   width: 100px;
 }
 
-.data{
+.inputData {
   width: 115px;
 }
 
-.espacoCima{
+.espacoCima {
   padding-top: 12px;
 }
 
@@ -80,3 +83,24 @@ select {
   box-sizing: border-box;
 }
 
+.alignCenter {
+  text-align: center;
+}
+
+.inputCPF {
+  width: 140px;
+}
+
+.inputLogin {
+  width: 150px;
+}
+
+.icon-input {
+  padding-right: 10px !important;
+}
+
+.check-icon {
+  right: -5px;
+  position: absolute;
+  top: 40px;
+}

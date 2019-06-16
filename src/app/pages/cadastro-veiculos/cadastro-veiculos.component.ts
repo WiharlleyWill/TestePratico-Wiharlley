@@ -20,12 +20,11 @@ export class CadastroVeiculosComponent implements OnInit {
   date = new Date();
 
   constructor(private formBuilder: FormBuilder, private adminService: AdminService) { }
-  maskPlaca = [/\s/, /\s/, /\s/, /\s/, /\s/, /\s/, /\s/, /\s/, /\s/, /\s/];
 
   ngOnInit() {
     this.employeeAtivo = [{ Id: 0, Name: 'Sim', value: true }, { Id: 1, Name: 'Não', value: false }];
     var aux = 0;
-    for (var i = 1900; i <= this.date.getFullYear(); i++) {
+    for (var i = 1886; i <= this.date.getFullYear(); i++) {
       this.employeeAnoFabricacao.push({
         Id: aux,
         Name: '' + i,
@@ -46,7 +45,7 @@ export class CadastroVeiculosComponent implements OnInit {
       anoModelo: [this.date.getFullYear(), [Validators.required, Validators.minLength(4)]],
       chassi: ['', [Validators.required, Validators.minLength(40)]],
       dtCadastro: [this.adminService.tratarData(this.date.getDate()) + '/' + this.adminService.tratarData((this.date.getMonth() + 1)) + '/' + this.date.getFullYear(), Validators.required],
-      dtDesativacao: [''],
+      dtDesativacao: ['- - -'],
       modelo: ['', [Validators.required, Validators.minLength(30)]],
       cor: [''],
       consumoMedio: [1, Validators.required],
@@ -58,7 +57,7 @@ export class CadastroVeiculosComponent implements OnInit {
 
   }
 
-  cadastrarCliente(){
+  cadastrarVeiculo(){
     this.submitted = true;
   }
 
@@ -69,7 +68,7 @@ export class CadastroVeiculosComponent implements OnInit {
     if(val == 1){
       this.cadastroForm.get('dtDesativacao').patchValue(this.adminService.tratarData(this.date.getDate()) + '/' + this.adminService.tratarData((this.date.getMonth() + 1)) + '/' + this.date.getFullYear());
     }else{
-      this.cadastroForm.get('dtDesativacao').setValue('');
+      this.cadastroForm.get('dtDesativacao').setValue('- - -');
     }
   }
 }
