@@ -10,7 +10,7 @@
   "scripts": {
     "ng": "ng",
     "conventional-changelog": "conventional-changelog",
-    "start": "ng serve --port 4205",
+    "start": "ng serve --port 4205 --proxy-config proxy-conf.json",
     "build": "ng build",
     "build:prod": "npm run build -- --prod --aot",
     "test": "ng test",

@@ -32,7 +32,7 @@ export class CadastroFuncionarioComponent implements OnInit {
 
   ngOnInit() {
     this.cadastroForm = this.formBuilder.group({
-      cpf: ['', [Validators.required, Validators.minLength(14)]],
+      cpf: ['', [Validators.required, Validators.minLength(14), cpfVerdadeiro]],
       nome: ['', [Validators.required, Validators.minLength(3)]],
       dtNasc: ['', [Validators.required, Validators.minLength(10), validarData]],
       login: ['', [Validators.required, Validators.minLength(4)]],
@@ -47,61 +47,6 @@ export class CadastroFuncionarioComponent implements OnInit {
 
   //FormGroup
   get f() { return this.cadastroForm.controls; }
-
-  validarCPF() {
-    /*var cpf = this.registerForm.get('cpf').value;
-    cpf = cpf.replace(/[.-]/g, '');
-
-    if (this.cpfVerdadeiro(cpf)) {
-
-      this.adminService.validarCPFAdmin(this.registerForm.get('cpf').value).pipe(take(1)).subscribe(snap => {
-        if (snap !== null && snap.length > 0) {
-
-          this.toastr.errorToastr("CPF inválido! Este CPF já está cadastrado no sistema!", 'Erro', { position: 'top-center', animate: 'slideFromTop', showCloseButton: true });
-
-        } else {
-          this.cpfValido = true;
-          this.toastr.successToastr("O CPF informado é válido", 'Status', { position: 'top-center', animate: 'slideFromTop', showCloseButton: true });
-        }
-      });
-      /*
-      this.cpfValido = true;
-      this.toastr.successToastr("O CPF informado é válido", 'Status', { position: 'top-center', animate: 'slideFromTop', showCloseButton: true });
-    } else {
-      this.cpfValido = false;
-      this.toastr.warningToastr("O CPF informado não é válido!", 'Erro', { position: 'top-center', animate: 'slideFromTop', showCloseButton: true });
-    }*/
-  }
-
-  cpfVerdadeiro(strCPF) {
-    var Soma;
-    var Resto;
-    Soma = 0;
-    if (strCPF == "00000000000") return false;
-    if (strCPF == "11111111111") return false;
-    if (strCPF == "22222222222") return false;
-    if (strCPF == "33333333333") return false;
-    if (strCPF == "44444444444") return false;
-    if (strCPF == "55555555555") return false;
-    if (strCPF == "66666666666") return false;
-    if (strCPF == "77777777777") return false;
-    if (strCPF == "88888888888") return false;
-    if (strCPF == "99999999999") return false;
-
-    for (var i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
-    Resto = (Soma * 10) % 11;
-
-    if ((Resto == 10) || (Resto == 11)) Resto = 0;
-    if (Resto != parseInt(strCPF.substring(9, 10))) return false;
-
-    Soma = 0;
-    for (var i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-    Resto = (Soma * 10) % 11;
-
-    if ((Resto == 10) || (Resto == 11)) Resto = 0;
-    if (Resto != parseInt(strCPF.substring(10, 11))) return false;
-    return true;
-  }
 
   exibirSenha() {
     switch (this.inputType) {
@@ -125,6 +70,38 @@ function validarData(control: AbstractControl): { [key: string]: any } | null {
   } else {
     return null;
   }
+}
+
+function cpfVerdadeiro(control: AbstractControl): { [key: string]: any } | null {
+  var strCPF = control.value.replace(/[.-]/g, '');
+  console.log(strCPF);
+  var Soma = 0;
+  var Resto;
+
+  if (strCPF == "00000000000") return { cpfValido: true };
+  if (strCPF == "11111111111") return { cpfValido: true };
+  if (strCPF == "22222222222") return { cpfValido: true };
+  if (strCPF == "33333333333") return { cpfValido: true };
+  if (strCPF == "44444444444") return { cpfValido: true };
+  if (strCPF == "55555555555") return { cpfValido: true };
+  if (strCPF == "66666666666") return { cpfValido: true };
+  if (strCPF == "77777777777") return { cpfValido: true };
+  if (strCPF == "88888888888") return { cpfValido: true };
+  if (strCPF == "99999999999") return { cpfValido: true };
+
+  for (var i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+  Resto = (Soma * 10) % 11;
+
+  if ((Resto == 10) || (Resto == 11)) Resto = 0;
+  if (Resto != parseInt(strCPF.substring(9, 10))) return { cpfValido: true };
+
+  Soma = 0;
+  for (var i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+  Resto = (Soma * 10) % 11;
+
+  if ((Resto == 10) || (Resto == 11)) Resto = 0;
+  if (Resto != parseInt(strCPF.substring(10, 11))) return { cpfValido: true };
+  return null;
 }
 
 
