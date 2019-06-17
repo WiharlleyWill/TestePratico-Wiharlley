@@ -15,14 +15,14 @@
                         </nb-alert>
                         <form (ngSubmit)="login()" #form="ngForm" aria-labelledby="title">
                             <div>
-                                <label class="label" for="input-email">Email:</label>
-                                <input nbInput fullWidth [(ngModel)]="email" name="email" id="input-email" placeholder="Email address"
+                                <label class="label" for="input-usuario">Usuário:</label>
+                                <input nbInput fullWidth [(ngModel)]="usuario" name="usuario" id="input-usuario" placeholder="Usuário"
                                     autofocus>
                             </div>
                             <div class="form-control-group">
-                                <label class="label" for="input-password">Password:</label>
+                                <label class="label" for="input-password">Senha:</label>
                                 <input nbInput fullWidth [(ngModel)]="password" name="password" type="password" id="input-password"
-                                    placeholder="Password">
+                                    placeholder="Senha">
                             </div>
 
                             <div class="form-control-group accept-group">

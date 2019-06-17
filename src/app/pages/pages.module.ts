@@ -4,8 +4,6 @@ import { DashboardModule } from "./dashboard/dashboard.module";
 import { PagesRoutingModule } from "./pages-routing.module";
 import { ThemeModule } from "../@theme/theme.module";
 import { MiscellaneousModule } from "./miscellaneous/miscellaneous.module";
-import { AuthGuard } from "../services/auth/auth.guard";
-import { AuthService } from "../services/auth/auth.service";
 import { Ng2SmartTableModule } from "ng2-smart-table";
 import { NbDialogModule, NbDatepickerModule } from "@nebular/theme";
 import { TextMaskModule } from "angular2-text-mask";
@@ -16,6 +14,10 @@ import { SpinnerModule } from 'primeng/spinner';
 import { CadastroVeiculosComponent } from './cadastro-veiculos/cadastro-veiculos.component'
 import { CadastroFuncionarioComponent } from './cadastro-funcionario/cadastro-funcionario.component';
 import { CalendarModule } from 'primeng/calendar';
+
+import { AuthenticationService } from "../services/auth/authentication.service";
+import { AuthGuardService } from "../services/auth/auth-guard.service";
+
 
 const PAGES_COMPONENTS = [
     PagesComponent,
@@ -45,7 +47,7 @@ const PAGES_COMPONENTS = [
     entryComponents: [
         
     ],
-    providers: [AuthGuard, AuthService]
+    providers: [AuthGuardService, AuthenticationService]
 })
 export class PagesModule
 {

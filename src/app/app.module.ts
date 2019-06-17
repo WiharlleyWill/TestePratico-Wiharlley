@@ -1,7 +1,6 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-//import { AnimationTransitionEvent } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { CoreModule } from "./@core/core.module";
@@ -11,7 +10,6 @@ import { ThemeModule } from "./@theme/theme.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { LoginComponent } from "./login/login.component";
 import { NbInputModule, NbCheckboxModule, NbWindowModule, NbDialogModule, NbDatepickerModule } from "@nebular/theme";
-import { AuthGuard } from "./services/auth/auth.guard";
 import { AdminService } from "./services/admin.service";
 import { TextMaskModule } from "angular2-text-mask";
 import { ExcelService } from "./services/excel.service";
@@ -20,6 +18,7 @@ import { CurrencyMaskModule } from "ng2-currency-mask";
 import { HttpModule } from '@angular/http';
 import { SpinnerModule } from 'primeng/spinner';
 import { CalendarModule } from 'primeng/calendar';
+import { AuthGuardService } from "./services/auth/auth-guard.service";
 
 @NgModule({
     declarations: [AppComponent, LoginComponent],
@@ -45,7 +44,7 @@ import { CalendarModule } from 'primeng/calendar';
     ],
     bootstrap: [AppComponent],
     providers: [
-        AuthGuard,
+        AuthGuardService,
         AdminService,
         ExcelService,
         { provide: APP_BASE_HREF, useValue: "/" },
