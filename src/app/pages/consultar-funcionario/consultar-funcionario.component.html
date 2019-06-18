@@ -1,0 +1,92 @@
+<nb-card>
+    <nb-card-header>
+      CADASTRAR FUNCIONÁRIO
+    </nb-card-header>
+    <nb-card-body>
+      <form [formGroup]="cadastroForm" (ngSubmit)="cadastrarFuncionario()">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-auto">
+              <h1>Dados do Funcionário</h1>
+            </div>
+            <div class="col-sm">
+              <hr />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-5">
+              <label>Nome</label>
+              <input maxlength="40" type="text" formControlName="nome" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.nome.errors }" />
+              <div *ngIf="submitted && f.nome.errors" class="invalid-feedback">
+                <div *ngIf="f.nome.errors.required">Informe corretamente o Nome do Funcionário</div>
+                <div *ngIf="f.nome.errors.minlength">O campo deve possuir pelo menos 3 caracteres</div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <label>CPF</label>
+              <div style="white-space:pre-line"></div>
+              <input type="text" formControlName="cpf" class="form-control inputCPF" [textMask]="{mask: maskCPF,guide:false}"
+                [ngClass]="{ 'is-invalid': submitted && f.cpf.errors }" />
+              <div *ngIf="submitted && f.cpf.errors" class="invalid-feedback">
+                <div *ngIf="f.cpf.errors.required">Informe corretamente o CPF</div>
+                <div *ngIf="f.cpf.errors.minlength">O campo deve possuir 14 caracteres</div>
+                <div *ngIf="f.cpf.errors.cpfValido">O CPF informado não é válido</div>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <label>Data de Nascimento</label>
+              <div style="white-space:pre-line"></div>
+              <input type="text" formControlName="dtNasc" class="form-control inputData"
+                [ngClass]="{ 'is-invalid': submitted && f.dtNasc.errors }" [textMask]="{mask: maskData,guide:false}"/>
+              <div *ngIf="submitted && f.dtNasc.errors" class="invalid-feedback">
+                <div *ngIf="f.dtNasc.errors.required">Informe corretamente a Data de Nacimento do Funcionário</div>
+                <div *ngIf="f.dtNasc.errors.minlength">O campo deve possuir 10 caracteres</div>
+                <div *ngIf="f.dtNasc.errors.dtNasc">A data informada não é válida</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group espacoCima">
+          <div class="row">
+            <div class="col-auto">
+              <h1>Dados de Login</h1>
+            </div>
+            <div class="col-sm">
+              <hr />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-auto">
+              <label>Login</label>
+              <div style="white-space:pre-line"></div>
+              <input maxlength="12" type="text" formControlName="login" class="form-control inputLogin"
+                [ngClass]="{ 'is-invalid': submitted && f.login.errors }" />
+              <div *ngIf="submitted && f.login.errors" class="invalid-feedback">
+                <div *ngIf="f.login.errors.required">Informe corretamente o Login do Funcionário</div>
+                <div *ngIf="f.login.errors.minlength">O campo deve possuir pelo menos 4 caracteres</div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <label>Senha</label>
+              <div style="white-space:pre-line"></div>
+              <input maxlength="12" type="{{inputType}}" formControlName="senha" class="form-control inputLogin"
+                [ngClass]="{ 'is-invalid': submitted && f.senha.errors }"/><a><i class='{{imagemSenha}} check-icon' (click)="exibirSenha()" aria-hidden='true'></i></a>
+              <div *ngIf="submitted && f.senha.errors" class="invalid-feedback">
+                <div *ngIf="f.senha.errors.required">Informe corretamente a Senha do Funcionário</div>
+                <div *ngIf="f.senha.errors.minlength">O campo deve possuir pelo menos 8 caracteres</div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-group mt-4">
+          <button class="btn btn-success">Cadastrar</button>
+        </div>
+      </form>
+    </nb-card-body>
+  </nb-card>

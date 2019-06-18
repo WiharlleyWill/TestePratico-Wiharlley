@@ -2,5 +2,13 @@
     "/users":{
         "target": "http://localhost:3000",
         "secure": false
+    },
+    "/veiculos":{
+        "target": "http://localhost:3000",
+        "secure": false
+    },
+    "/funcionarios":{
+        "target": "http://localhost:3000",
+        "secure": false
     }
 }

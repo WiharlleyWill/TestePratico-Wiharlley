@@ -11,8 +11,12 @@ app.use(
 );
 
 var Users = require("./routes/Users");
+var Veiculos = require("./routes/Veiculos");
+var Funcionarios = require("./routes/Funcionarios");
 
 app.use("/users", Users);
+app.use("/veiculos", Veiculos);
+app.use("/funcionarios", Funcionarios);
 
 app.listen(port, function(){
     console.log("Server is running on port: " + port);

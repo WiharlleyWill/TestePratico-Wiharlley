@@ -1,10 +1,11 @@
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
+import { AuthGuardService } from "../services/auth/auth-guard.service";
 import { PagesComponent } from "./pages.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { CadastroVeiculosComponent } from './cadastro-veiculos/cadastro-veiculos.component'
 import { CadastroFuncionarioComponent } from './cadastro-funcionario/cadastro-funcionario.component';
-import { AuthGuardService } from "../services/auth/auth-guard.service";
+import { ConsultarFuncionarioComponent } from './consultar-funcionario/consultar-funcionario.component';
 
 
 const routes: Routes = [{
@@ -20,12 +21,17 @@ const routes: Routes = [{
         {
             path: "cadastro-veiculo",
             component: CadastroVeiculosComponent,
-           // canActivate: [AuthGuard],
+            canActivate: [AuthGuardService],
         },
         {
             path: "novo-funcionario",
             component: CadastroFuncionarioComponent,
-           // canActivate: [AuthGuard],
+            canActivate: [AuthGuardService],
+        },
+        {
+            path: "consultar-funcionario",
+            component: ConsultarFuncionarioComponent,
+            canActivate: [AuthGuardService],
         },
         {
             path: "",

@@ -19,20 +19,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
             {
                 title: "Funcionário",
                 link: "novo-funcionario",
-            },
-            /*
-            {
-                title: "Franquia",
-                //link: "subAdmin",
-            },
-            {
-                title: "Vendedor",
-                //link: "consultor",
-            },
-            {   
-                title: "Cidade",
-                //link: "nova-cidade",
-            },*/
+            }
         ],
     },
     {
@@ -40,9 +27,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: "nb-search",
         link: "consultar/",
         children: [
-           /* {
-                title: "Cliente",
-                link: "consultar-cliente",
+            {
+                title: "Funcionário",
+                link: "consultar-funcionario",
             },
             /*{
                 title: "Empresa",

@@ -20,8 +20,9 @@ export class HeaderComponent implements OnInit {
 
     ) { }
 
-    ngOnInit() {
-        const email = localStorage.getItem("email");
+    ngOnInit()
+    {
+        const email = localStorage.getItem("usuario");
         this.user = { name: email };
     }
 

@@ -1,17 +1,67 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+import { Observable, of } from 'rxjs'
 
+export interface Veiculo
+{
+    placa: string
+    ativo: boolean
+    anoFabricacao: string
+    anoModelo: string
+    chassi: string
+    dtCadastro: string
+    timestampCadastro: number
+    dtDesativacao: any
+    timestampDesativacao: number
+    modelo: string
+    cor: string
+    consumoMedio: number
+    numeroPassageiros: number
+    idFuncionario: string
+    nomeFuncionario: string
+}
+
+export interface Funcionario
+{
+    cpf: string
+    nome: string
+    dtNasc: string
+    login: string
+    senha: string
+    dtCadastro: string
+    timestampCadastro: number
+    cpfResponsavelCadastro: string
+}
 
 @Injectable()
-export class AdminService {
+export class AdminService
+{
     url = '/Admin/';
     item: any;
-    constructor() { }
-
-    
+    constructor(private http: HttpClient, ) { }
 
 
-    tratarMes(mes) {
-        switch (mes) {
+    //CadastrarVeiculo
+    setVeiculo(veiculo: Veiculo): Observable<any>
+    {
+        console.log("Clicou salvar");
+        return this.http.post(`/veiculos/registrarVeiculo`, veiculo);
+    }
+
+    //CadastrarFuncionario
+    setFuncionario(funcionario: Funcionario): Observable<any>
+    {
+        console.log("Clicou salvar");
+        return this.http.post(`/funcionarios/registrarFuncionario`, funcionario);
+    }
+
+
+
+
+    tratarMes(mes)
+    {
+        switch (mes)
+        {
             case '0':
             case 0:
                 return 'Janeiro';
@@ -53,10 +103,13 @@ export class AdminService {
         }
     }
 
-    tratarData(data){
-        if(data.toString().length < 2){
+    tratarData(data)
+    {
+        if (data.toString().length < 2)
+        {
             return "0" + data;
-        }else{
+        } else
+        {
             return "" + data;
         }
     }

@@ -14,6 +14,7 @@ import { SpinnerModule } from 'primeng/spinner';
 import { CadastroVeiculosComponent } from './cadastro-veiculos/cadastro-veiculos.component'
 import { CadastroFuncionarioComponent } from './cadastro-funcionario/cadastro-funcionario.component';
 import { CalendarModule } from 'primeng/calendar';
+import { ConsultarFuncionarioComponent } from './consultar-funcionario/consultar-funcionario.component';
 
 import { AuthenticationService } from "../services/auth/authentication.service";
 import { AuthGuardService } from "../services/auth/auth-guard.service";
@@ -22,7 +23,8 @@ import { AuthGuardService } from "../services/auth/auth-guard.service";
 const PAGES_COMPONENTS = [
     PagesComponent,
     CadastroVeiculosComponent,
-    CadastroFuncionarioComponent
+    CadastroFuncionarioComponent,
+    ConsultarFuncionarioComponent
 ];
 
 @NgModule({

@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { Router } from '@angular/router'
 
-export interface UserDetails {
+export interface FuncionarioDetalhes {
     id: number
     first_name: string
     last_name: string
@@ -19,11 +19,8 @@ interface TokenResponse {
 }
 
 export interface TokenPayload {
-    id: number
-    first_name: string
-    last_name: string
-    email: string
-    password: string
+    login: string
+    senha: string
 }
 
 @Injectable({
@@ -46,7 +43,7 @@ export class AuthenticationService {
         return this.token
     }
 
-    public getUserDetails(): UserDetails {
+    public getUserDetails(): FuncionarioDetalhes {
         const token = this.getToken()
         let payload
         if (token) {
@@ -67,17 +64,13 @@ export class AuthenticationService {
         }
     }
 
-    public register(user: TokenPayload): Observable<any> {
-        return this.http.post(`/users/register`, user)
-    }
-
-    public login(user: TokenPayload): Observable<any> {
-        const base = this.http.post(`/users/login`, user)
+    public login(funcionario: TokenPayload): Observable<any> {
+        const base = this.http.post(`/funcionarios/login`, funcionario)
 
         const request = base.pipe(
             map((data: TokenResponse) => {
                 if (data.token) {
-                    this.saveToken(data.token)
+                    this.saveToken(data.token);
                 }
                 return data
             })
@@ -85,16 +78,17 @@ export class AuthenticationService {
 
         return request
     }
-
+/*
     public profile(): Observable<any> {
         return this.http.get(`/users/profile`, {
             headers: { Authorization: ` ${this.getToken()}` }
         })
-    }
+    }*/
 
     public logout(): void {
         this.token = ''
         window.localStorage.removeItem('usertoken')
-        this.router.navigateByUrl('/')
+        this.router.navigateByUrl('/login')
+        localStorage.setItem("rememberMe", 'false');
     }
 }
