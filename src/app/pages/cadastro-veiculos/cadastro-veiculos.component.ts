@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Employee } from "../utilitarios/employee"
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AdminService, Veiculo } from '../../services/admin.service'
+import { ToastrManager } from 'ng6-toastr-notifications';
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
     selector: 'cadastro-veiculos',
@@ -20,7 +22,7 @@ export class CadastroVeiculosComponent implements OnInit
     consumoMedio = 1;
     date = new Date();
 
-    constructor(private formBuilder: FormBuilder, private adminService: AdminService) { }
+    constructor(private formBuilder: FormBuilder, private adminService: AdminService, private toastr: ToastrManager, protected router: Router) { }
 
     ngOnInit()
     {
@@ -86,10 +88,13 @@ export class CadastroVeiculosComponent implements OnInit
             this.adminService.setVeiculo(dadosVeiculo).subscribe(
                 () =>
                 {
-                    console.log("Sucesso ao Cadastrar o veículo.");
+                    this.toastr.successToastr('Veículo cadastrado com sucesso!', 'Status', { position: 'top-center', animate: 'slideFromTop' });
+                    this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() =>
+                        this.router.navigate(["/pages/cadastro-veiculo"]));
                 },
                 err =>
                 {
+                    this.toastr.warningToastr('Houve um erro ao cadastrar o Veículo! Erro: ' + err, 'Erro', { position: 'top-center', animate: 'slideFromTop' });
                     console.error(err);
                 }
             );

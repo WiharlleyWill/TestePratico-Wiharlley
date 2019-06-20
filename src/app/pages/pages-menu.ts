@@ -18,7 +18,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
             },
             {
                 title: "Funcionário",
-                link: "novo-funcionario",
+                link: "cadastrar-funcionario",
             }
         ],
     },
@@ -31,22 +31,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: "Funcionário",
                 link: "consultar-funcionario",
             },
-            /*{
-                title: "Empresa",
-                //link: "novo-vendedor",
-            },
             {
-                title: "Franquia",
-                //link: "subAdmin",
-            },
-            {
-                title: "Vendedor",
-                //link: "consultor",
-            },
-            {   
-                title: "Cidade",
-                //link: "nova-cidade",
-            },*/
+                title: "Veículo",
+                link: "consultar-veiculo",
+            }
         ],
     },
     {
@@ -54,18 +42,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: "nb-bar-chart",
         link: "relatorios/",
         children: [
-           /* {
-                title: "Vendas",
-                //link: "consultarVendedor",
+            {
+                title: "Veículos Ativados",
+                link: "relatorio-veiculos-ativados",
             },
             {
-                title: "Vencimento",
-                //link: "relatorio-pendencias-pedidos", 
-            },
-            /*{
-                title: "Empresas",
-                //link: "relatorio-pendencias-boletos", 
-            }*/
+                title: "Aniversariantes",
+                link: "relatorio-aniversariantes", 
+            }
         ],
     },
     {

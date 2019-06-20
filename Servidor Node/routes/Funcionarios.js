@@ -9,7 +9,6 @@ funcionarios.use(cors())
 process.env.SECRET_KEY = 'secret'
 
 funcionarios.post('/registrarFuncionario', (req, res) => {
-    const today = new Date()
     const funcionario = {
         cpf: req.body.cpf,
         nome: req.body.nome,
@@ -18,7 +17,8 @@ funcionarios.post('/registrarFuncionario', (req, res) => {
         senha: req.body.senha,
         dtCadastro: req.body.dtCadastro,
         timestampCadastro: req.body.timestampCadastro,
-        cpfResponsavelCadastro: req.body.cpfResponsavelCadastro
+        cpfResponsavelCadastro: req.body.cpfResponsavelCadastro,
+        mesAniversario: req.body.mesAniversario
     }
 
     Funcionarios.create(funcionario)
@@ -27,6 +27,11 @@ funcionarios.post('/registrarFuncionario', (req, res) => {
                 expiresIn: 1440
             })
             res.json({ token: token })*/
+            if (funcionario) {
+                res.json(funcionario)
+            } else {
+                res.send(false);
+            }
             console.log(funcionario);
         })
         .catch(err => {
@@ -35,6 +40,7 @@ funcionarios.post('/registrarFuncionario', (req, res) => {
 })
 
 funcionarios.post('/login', (req, res) => {
+    console.log('Dados: ' + JSON.stringify(req.body))
     Funcionarios.findOne({
         where: {
             login: req.body.login,
@@ -43,10 +49,11 @@ funcionarios.post('/login', (req, res) => {
     })
         .then(funcionario => {
             if (funcionario) {
+                console.log("Login realizado");
                 let token = jwt.sign(funcionario.dataValues, process.env.SECRET_KEY, {
                     expiresIn: 1440
                 })
-                res.json({ token: token })
+                res.json({ token: token, cpf: funcionario.dataValues.cpf })
             } else {
                 res.send('Funcionario não existe')
             }
@@ -55,5 +62,86 @@ funcionarios.post('/login', (req, res) => {
             res.send('error: ' + err)
         })
 })
+
+funcionarios.get('/buscaCPF', (req, res) => {
+    console.log('Dados: ' + JSON.stringify(req.headers.search))
+    Funcionarios.findOne({
+        where: {
+            cpf: req.headers.search
+        }
+    })
+        .then(funcionario => {
+            if (funcionario) {
+                res.json(funcionario)
+            } else {
+                res.send(false);
+            }
+        })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+})
+
+funcionarios.get('/buscaNome', (req, res) => {
+    console.log('Dados: ' + JSON.stringify(req.headers.search))
+    Funcionarios.findAll({
+        where: {
+            nome: req.headers.search
+        }
+    })
+        .then(funcionario => {
+            if (funcionario) {
+                res.json(funcionario)
+            } else {
+                res.send(false);
+            }
+        })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+})
+
+funcionarios.post('/updateFuncionario', (req, res) => {
+    console.log("Chamou update");
+    console.log(req.body);
+    Funcionarios.update(
+        req.body, {
+            where: {
+                cpf: req.body.cpf
+            }
+        })
+        .then(funcionario => {
+            if (funcionario) {
+                res.json(funcionario)
+            } else {
+                res.send(false);
+            }
+        })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+})
+
+funcionarios.get('/buscaAniversariantes', (req, res) => {
+    console.log('Dados: ' + JSON.stringify(req.headers.search))
+    Funcionarios.findAll({
+        where: {
+            mesAniversario: req.headers.search
+        }
+    })
+        .then(funcionario => {
+            if (funcionario) {
+                console.log(funcionario)
+                res.json(funcionario)
+            } else {
+                console.log('falso')
+                res.send(false);
+            }
+        })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+})
+
 
 module.exports = funcionarios

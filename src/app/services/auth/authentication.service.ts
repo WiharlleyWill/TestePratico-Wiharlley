@@ -36,7 +36,7 @@ export class AuthenticationService {
         this.token = token
     }
 
-    private getToken(): string {
+    public getToken(): string {
         if (!this.token) {
             this.token = localStorage.getItem('usertoken')
         }
@@ -69,7 +69,9 @@ export class AuthenticationService {
 
         const request = base.pipe(
             map((data: TokenResponse) => {
-                if (data.token) {
+                if (data.token)
+                {
+                    console.log(data);
                     this.saveToken(data.token);
                 }
                 return data

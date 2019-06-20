@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Observable, of } from 'rxjs'
+import { AuthenticationService } from './auth/authentication.service'
 
 export interface Veiculo
 {
@@ -31,6 +32,7 @@ export interface Funcionario
     dtCadastro: string
     timestampCadastro: number
     cpfResponsavelCadastro: string
+    mesAniversario: string
 }
 
 @Injectable()
@@ -38,8 +40,7 @@ export class AdminService
 {
     url = '/Admin/';
     item: any;
-    constructor(private http: HttpClient, ) { }
-
+    constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
 
     //CadastrarVeiculo
     setVeiculo(veiculo: Veiculo): Observable<any>
@@ -53,6 +54,47 @@ export class AdminService
     {
         console.log("Clicou salvar");
         return this.http.post(`/funcionarios/registrarFuncionario`, funcionario);
+    }
+
+    getFuncionarioCPF(cpf): Observable<any>
+    {
+        return this.http.get(`/funcionarios/buscaCPF`, {
+            headers: { Authorization: ` ${this.authenticationService.getToken()}`, search: cpf }
+        });
+    }
+
+    getFuncionarioNome(nome): Observable<any>
+    {
+        return this.http.get(`/funcionarios/buscaNome`, {
+            headers: { Authorization: ` ${this.authenticationService.getToken()}`, search: nome }
+        });
+    }
+
+    //AtualizarFuncionario
+    updateFuncionario(funcionario): Observable<any>
+    {
+        return this.http.post(`/funcionarios/updateFuncionario`, funcionario);
+    }
+
+    getVeiculoPlaca(placa): Observable<any>
+    {
+        return this.http.get(`/veiculos/buscaPlaca`, {
+            headers: { Authorization: ` ${this.authenticationService.getToken()}`, search: placa }
+        });
+    }
+
+    getVeiculoModelo(modelo): Observable<any>
+    {
+        return this.http.get(`/veiculos/buscaModelo`, {
+            headers: { Authorization: ` ${this.authenticationService.getToken()}`, search: modelo }
+        });
+    }
+
+    getAniversariantes(mes): Observable<any>
+    {
+        return this.http.get(`/funcionarios/buscaAniversariantes`, {
+            headers: { Authorization: ` ${this.authenticationService.getToken()}`, search: mes }
+        });
     }
 
 

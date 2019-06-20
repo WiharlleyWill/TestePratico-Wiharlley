@@ -34,7 +34,50 @@ veiculos.post('/registrarVeiculo', (req, res) => {
                 expiresIn: 1440
             })
             res.json({ token: token })*/
+            if (veiculo) {
+                res.json(veiculo)
+            } else {
+                res.send(false);
+            }
             console.log(veiculo);
+        })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+})
+
+veiculos.get('/buscaPlaca', (req, res) => {
+    console.log('Dados: ' + JSON.stringify(req.headers.search))
+    Veiculos.findOne({
+        where: {
+            placa: req.headers.search
+        }
+    })
+        .then(veiculos => {
+            if (veiculos) {
+                res.json(veiculos)
+            } else {
+                res.send(false);
+            }
+        })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+})
+
+veiculos.get('/buscaModelo', (req, res) => {
+    console.log('Dados: ' + JSON.stringify(req.headers.search))
+    Veiculos.findAll({
+        where: {
+            modelo: req.headers.search
+        }
+    })
+        .then(veiculos => {
+            if (veiculos) {
+                res.json(veiculos)
+            } else {
+                res.send(false);
+            }
         })
         .catch(err => {
             res.send('error: ' + err)

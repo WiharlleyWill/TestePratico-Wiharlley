@@ -1,0 +1,64 @@
+<nb-card>
+    <nb-card-header>
+        RELATÓRIO ANIVERSARIANTES
+    </nb-card-header>
+    <nb-card-body>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-auto">
+                    <label>Mês</label>
+                    <div style="white-space:pre-line"></div>
+                    <div style="margin-top: -4px">
+                        <select class="form-control" (change)="change = true" [(ngModel)]="empSelectedMes"
+                            (ngModelChange)='mesAlterado($event)'>
+                            <option *ngFor=" let emp of employeeMeses" [value]="emp.Id">{{emp.Name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary espacoCimaConsulta" (click)="buscarAniversariantes()">Buscar</button>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-1" *ngIf="exibirTabela">
+            <div class="col-sm text-right">
+                <button type="button" class="btn btn-info" (click)="htmlInsideModal.open()">
+                    <span class="glyphicon glyphicon-export"></span> Exportar
+                </button>
+                <modal #htmlInsideModal>
+                    <ng-template #modalHeader>
+                        <h2>Escolha o tipo de arquivo</h2>
+                    </ng-template>
+                    <ng-template #modalBody>
+                        <div class="row">
+                            <div class="col-sm">
+                                <button type="button" class="btn btn-danger" (click)="exportar(0)"><span
+                                        class="fas fa-file-pdf" style='font-size:30px'></span> .PDF
+                                </button>
+                            </div>
+                            <div class="col-sm">
+                                <button type="button" class="btn btn-success" (click)="exportar(1)"><span
+                                        class="fas fa-file-excel" style='font-size:30px'></span> .Excel
+                                </button>
+                            </div>
+                            <div class="col-sm">
+                                <button type="button" class="btn btn-info" (click)="exportar(2)"><span
+                                        class="fas fa-file-csv" style='font-size:30px'></span> .CSV
+                                </button>
+                            </div>
+                        </div>
+                    </ng-template>
+                </modal>
+            </div>
+        </div>
+        <div *ngIf="exibirTabela" class="row mt-4">
+            <div class="col-sm">
+                <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onUserRowSelect($event)">
+                </ng2-smart-table>
+            </div>
+        </div>
+
+
+    </nb-card-body>
+</nb-card>

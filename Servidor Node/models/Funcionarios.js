@@ -29,6 +29,9 @@ module.exports = db.sequelize.define(
         },
         cpfResponsavelCadastro: {
             type: Sequelize.STRING
+        },
+        mesAniversario: {
+            type: Sequelize.STRING
         }
     },
     {

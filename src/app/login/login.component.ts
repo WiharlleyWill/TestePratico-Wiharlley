@@ -31,9 +31,29 @@ export class LoginComponent
                 senha: this.password
             }
 
-            this.auth.login(credentials).subscribe(
+            this.auth.login(credentials).subscribe(dados =>
+            {   
+                if (this.rememberMe)
+                {
+                    localStorage.setItem("rememberMe", 'true');
+                    localStorage.setItem("usuario", this.usuario);
+                } else
+                {
+                    localStorage.setItem("usuario", this.usuario);
+                    localStorage.setItem("rememberMe", 'false');
+                }
+                localStorage.setItem("cpf", dados.cpf);
+                this.router.navigate(["/pages/dashboard"]);
+            },
+                err =>
+                {
+                    this.mensagem = "Usuário não encontrado";
+                    console.error(err)
+                });
+
+            /*this.auth.login(credentials).subscribe(
                 () =>
-                {   
+                {
                     console.log("Login realizado com sucesso!");
                     if (this.rememberMe)
                     {
@@ -47,11 +67,11 @@ export class LoginComponent
                     this.router.navigate(["/pages/dashboard"]);
                 },
                 err =>
-                {   
+                {
                     this.mensagem = "Usuário não encontrado";
                     console.error(err)
                 }
-            );
+            );*/
         }
 
 

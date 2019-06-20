@@ -19,6 +19,7 @@ import { HttpModule } from '@angular/http';
 import { SpinnerModule } from 'primeng/spinner';
 import { CalendarModule } from 'primeng/calendar';
 import { AuthGuardService } from "./services/auth/auth-guard.service";
+import { ToastrModule } from 'ng6-toastr-notifications';
 
 @NgModule({
     declarations: [AppComponent, LoginComponent],
@@ -40,7 +41,8 @@ import { AuthGuardService } from "./services/auth/auth-guard.service";
         HttpModule,
         SpinnerModule,
         NbDatepickerModule.forRoot(),
-        CalendarModule
+        CalendarModule,
+        ToastrModule.forRoot()
     ],
     bootstrap: [AppComponent],
     providers: [

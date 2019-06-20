@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { AdminService, Funcionario } from '../../services/admin.service'
+import { ToastrManager } from 'ng6-toastr-notifications';
+import { Router, ActivatedRoute } from "@angular/router";
+
 var moment = require('moment/moment');
 
 @Component({
@@ -16,7 +19,7 @@ export class CadastroFuncionarioComponent implements OnInit
     cadastroForm: FormGroup;
     maxDateValue = new Date();
 
-    constructor(private formBuilder: FormBuilder, private adminService: AdminService) { }
+    constructor(private formBuilder: FormBuilder, private adminService: AdminService, private toastr: ToastrManager, protected router: Router) { }
     maskCPF = [/\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, "-", /\d/, /\d/];
     maskData = [/\d/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/];
 
@@ -35,28 +38,38 @@ export class CadastroFuncionarioComponent implements OnInit
     cadastrarFuncionario()
     {
         this.submitted = true;
-        var date = new Date();
-
-        var dadosFuncionario: Funcionario = {
-            cpf: this.cadastroForm.get('cpf').value,
-            nome: this.cadastroForm.get('nome').value,
-            dtNasc: this.cadastroForm.get('dtNasc').value,
-            login: this.cadastroForm.get('login').value,
-            senha: this.cadastroForm.get('senha').value,
-            dtCadastro: this.adminService.tratarData(date.getDate()) + '/' + this.adminService.tratarData((date.getMonth() + 1)) + '/' + date.getFullYear(),
-            timestampCadastro: date.getTime(),
-            cpfResponsavelCadastro: "000.000.000-00"
-        };
-        this.adminService.setFuncionario(dadosFuncionario).subscribe(
-            () =>
-            {
-                console.log("Sucesso ao Cadastrar o funcionário.");
-            },
-            err =>
-            {
-                console.error(err);
-            }
-        );
+        if (this.cadastroForm.valid)
+        {
+            var date = new Date();
+            var dadosFuncionario: Funcionario = {
+                cpf: this.cadastroForm.get('cpf').value,
+                nome: this.cadastroForm.get('nome').value,
+                dtNasc: this.cadastroForm.get('dtNasc').value,
+                login: this.cadastroForm.get('login').value,
+                senha: this.cadastroForm.get('senha').value,
+                dtCadastro: this.adminService.tratarData(date.getDate()) + '/' + this.adminService.tratarData((date.getMonth() + 1)) + '/' + date.getFullYear(),
+                timestampCadastro: date.getTime(),
+                cpfResponsavelCadastro: localStorage.getItem('cpf'),
+                mesAniversario: this.cadastroForm.get('dtNasc').value.substring(3,5)
+            };
+            
+            this.adminService.setFuncionario(dadosFuncionario).subscribe(
+                () =>
+                {
+                    this.toastr.successToastr('Funcionário cadastrado com sucesso!', 'Status', { position: 'top-center', animate: 'slideFromTop' });
+                    this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() =>
+                        this.router.navigate(["/pages/cadastrar-funcionario"]));
+                },
+                err =>
+                {
+                    this.toastr.warningToastr('Houve um erro ao cadastrar o Funcionário! Erro: ' + err, 'Erro', { position: 'top-center', animate: 'slideFromTop' });
+                    console.error(err);
+                }
+            );
+        } else
+        {
+            this.toastr.warningToastr('Preencha corretamente todos os campos!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
+        }
     }
 
     //FormGroup
@@ -94,7 +107,6 @@ function validarData(control: AbstractControl): { [key: string]: any } | null
 function cpfVerdadeiro(control: AbstractControl): { [key: string]: any } | null
 {
     var strCPF = control.value.replace(/[.-]/g, '');
-    console.log(strCPF);
     var Soma = 0;
     var Resto;
 

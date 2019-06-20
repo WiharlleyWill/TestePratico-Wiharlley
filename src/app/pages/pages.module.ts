@@ -15,6 +15,9 @@ import { CadastroVeiculosComponent } from './cadastro-veiculos/cadastro-veiculos
 import { CadastroFuncionarioComponent } from './cadastro-funcionario/cadastro-funcionario.component';
 import { CalendarModule } from 'primeng/calendar';
 import { ConsultarFuncionarioComponent } from './consultar-funcionario/consultar-funcionario.component';
+import { ConsultarVeiculoComponent } from './consultar-veiculo/consultar-veiculo.component';
+import { RelatorioVeiculosAtivadosComponent } from './relatorio-veiculos-ativados/relatorio-veiculos-ativados.component';
+import { RelatorioAniversariantesComponent } from './relatorio-aniversariantes/relatorio-aniversariantes.component';
 
 import { AuthenticationService } from "../services/auth/authentication.service";
 import { AuthGuardService } from "../services/auth/auth-guard.service";
@@ -24,7 +27,10 @@ const PAGES_COMPONENTS = [
     PagesComponent,
     CadastroVeiculosComponent,
     CadastroFuncionarioComponent,
-    ConsultarFuncionarioComponent
+    ConsultarFuncionarioComponent,
+    ConsultarVeiculoComponent,
+    RelatorioVeiculosAtivadosComponent,
+    RelatorioAniversariantesComponent
 ];
 
 @NgModule({
@@ -47,7 +53,7 @@ const PAGES_COMPONENTS = [
         ...PAGES_COMPONENTS,
     ],
     entryComponents: [
-        
+
     ],
     providers: [AuthGuardService, AuthenticationService]
 })
