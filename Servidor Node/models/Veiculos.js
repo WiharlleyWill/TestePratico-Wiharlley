@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../database/db.js')
-
+db
 module.exports = db.sequelize.define(
     'veiculos',
     {
@@ -27,11 +27,19 @@ module.exports = db.sequelize.define(
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW
         },
+        dtAtivacao: {
+            type: Sequelize.STRING
+        },
+        timestampAtivacao: {
+            type: Sequelize.DATE,
+            defaultValue: ''
+        },
         dtDesativacao: {
             type: Sequelize.STRING
         },
         timestampDesativacao: {
-            type: Sequelize.DATE
+            type: Sequelize.DATE,
+            defaultValue: ''
         },
         modelo: {
             type: Sequelize.STRING
@@ -45,7 +53,7 @@ module.exports = db.sequelize.define(
         numeroPassageiros: {
             type: Sequelize.INTEGER
         },
-        idFuncionario: {
+        cpfFuncionario: {
             type: Sequelize.STRING
         },
         nomeFuncionario: {

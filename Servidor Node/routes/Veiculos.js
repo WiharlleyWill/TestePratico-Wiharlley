@@ -2,6 +2,8 @@ const express = require('express')
 const veiculos = express.Router()
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op;
 
 const Veiculos = require('../models/Veiculos')
 veiculos.use(cors())
@@ -18,19 +20,21 @@ veiculos.post('/registrarVeiculo', (req, res) => {
         chassi: req.body.chassi,
         dtCadastro: req.body.dtCadastro,
         timestampCadastro: req.body.timestampCadastro,
+        dtAtivacao: req.body.dtAtivacao,
+        timestampAtivacao: req.body.timestampAtivacao,
         dtDesativacao: req.body.dtDesativacao,
         timestampDesativacao: req.body.timestampDesativacao,
         modelo: req.body.modelo,
         cor: req.body.cor,
         consumoMedio: req.body.consumoMedio,
         numeroPassageiros: req.body.numeroPassageiros,
-        idFuncionario: req.body.idFuncionario,
+        cpfFuncionario: req.body.cpfFuncionario,
         nomeFuncionario: req.body.nomeFuncionario
     }
 
     Veiculos.create(veiculo)
         .then(veiculo => {
-            /*let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
+            /*let token = jwt.sign(veiculo.dataValues, process.env.SECRET_KEY, {
                 expiresIn: 1440
             })
             res.json({ token: token })*/
@@ -75,6 +79,75 @@ veiculos.get('/buscaModelo', (req, res) => {
         .then(veiculos => {
             if (veiculos) {
                 res.json(veiculos)
+            } else {
+                res.send(false);
+            }
+        })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+})
+
+veiculos.get('/buscaAtivados', (req, res) => {
+    console.log('Dados: ' + JSON.stringify(req.headers.search))
+    console.log('Dados2: ' + JSON.stringify(req.headers.search2))
+
+    var date1 = new Date(req.headers.search);
+
+    var date2 = new Date(req.headers.search2);
+
+    Veiculos.findAll({
+        where: Sequelize.and(
+            {
+                timestampAtivacao: {
+                    [Op.gte]: date1,
+                    [Op.lte]: date2
+                }
+            }
+        )
+    }).then(veiculos => {
+        if (veiculos) {
+            res.json(veiculos)
+        } else {
+            res.send(false);
+        }
+    })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+})
+
+veiculos.get('/buscaChassi', (req, res) => {
+    console.log('Dados: ' + JSON.stringify(req.headers.search))
+    Veiculos.findOne({
+        where: {
+            chassi: req.headers.search
+        }
+    })
+        .then(veiculos => {
+            if (veiculos) {
+                res.json(veiculos)
+            } else {
+                res.send(false);
+            }
+        })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+})
+
+veiculos.post('/updateVeiculo', (req, res) => {
+    console.log("Chamou update");
+    console.log(req.body);
+    Veiculos.update(
+        req.body, {
+            where: {
+                placa: req.body.placa
+            }
+        })
+        .then(veiculo => {
+            if (veiculo) {
+                res.json(veiculo)
             } else {
                 res.send(false);
             }

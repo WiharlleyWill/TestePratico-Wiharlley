@@ -65,7 +65,7 @@ export class AuthenticationService {
     }
 
     public login(funcionario: TokenPayload): Observable<any> {
-        const base = this.http.post(`/funcionarios/login`, funcionario)
+        const base = this.http.post(`/funcionarios/login`, funcionario);
 
         const request = base.pipe(
             map((data: TokenResponse) => {

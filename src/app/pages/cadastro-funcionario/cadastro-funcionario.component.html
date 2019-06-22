@@ -34,6 +34,7 @@
               <div *ngIf="f.cpf.errors.required">Informe corretamente o CPF</div>
               <div *ngIf="f.cpf.errors.minlength">O campo deve possuir 14 caracteres</div>
               <div *ngIf="f.cpf.errors.cpfValido">O CPF informado não é válido</div>
+              <div *ngIf="f.cpf.errors.cpfNoSistema">O CPF não é válido, já consta no sistema</div>
             </div>
           </div>
           <div class="col-sm-2">

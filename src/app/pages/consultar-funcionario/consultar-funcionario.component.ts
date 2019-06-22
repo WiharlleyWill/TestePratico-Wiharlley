@@ -14,6 +14,7 @@ var moment = require('moment/moment');
 export class ConsultarFuncionarioComponent implements OnInit
 {
     bExibirFuncionario: boolean = false;
+    antigoLogin = '';
     submitted: boolean = false;
     buscaForm: FormGroup;
     funcionarioForm: FormGroup;
@@ -78,6 +79,7 @@ export class ConsultarFuncionarioComponent implements OnInit
                     this.funcionarioForm.get('nome').patchValue(dados.nome);
                     this.funcionarioForm.get('timestampCadastro').patchValue(dados.timestampCadastro);
                     this.bExibirFuncionario = true;
+                    this.antigoLogin = dados.login;
                 } else
                 {
                     this.toastr.warningToastr('Funcionário não encontrado!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
@@ -122,6 +124,7 @@ export class ConsultarFuncionarioComponent implements OnInit
                             this.funcionarioForm.get('timestampCadastro').patchValue(aux[0].timestampCadastro);
                             this.exibirTabela = false;
                             this.bExibirFuncionario = true;
+                            this.antigoLogin = dados.login;
                         }
                     } else
                     {
@@ -172,28 +175,62 @@ export class ConsultarFuncionarioComponent implements OnInit
     {
         if (this.funcionarioForm.valid)
         {
-            var funcionario = {
-                cpf: this.funcionarioForm.get('cpf').value,
-                nome: this.funcionarioForm.get('nome').value,
-                dtNasc: this.funcionarioForm.get('dtNasc').value,
-                login: this.funcionarioForm.get('login').value,
-            }
-
-            this.adminService.updateFuncionario(funcionario).subscribe(
-                () =>
+            if (this.antigoLogin !== this.funcionarioForm.get('login').value)
+            {
+                this.adminService.getLoginFuncionario(this.funcionarioForm.get('login').value).subscribe(dados =>
                 {
-                    this.toastr.successToastr('Dados atualizados com sucesso!', 'Status', { position: 'top-center', animate: 'slideFromTop' });
-                    this.voltar();
-                },
-                err =>
-                {   
-                    this.toastr.warningToastr('Houve um erro ao atualizar o Funcionário! Erro: ' + err, 'Erro', { position: 'top-center', animate: 'slideFromTop' });
-                    console.error(err);
+                    if (dados !== false)
+                    {
+                        this.toastr.errorToastr('Este Login está vínculado a um usuário no sistema!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
+                        return null;
+                    } else
+                    {
+                        var funcionario = {
+                            cpf: this.funcionarioForm.get('cpf').value,
+                            nome: this.funcionarioForm.get('nome').value,
+                            dtNasc: this.funcionarioForm.get('dtNasc').value,
+                            login: this.funcionarioForm.get('login').value,
+                        }
+
+                        this.adminService.updateFuncionario(funcionario).subscribe(
+                            () =>
+                            {
+                                this.toastr.successToastr('Dados atualizados com sucesso!', 'Status', { position: 'top-center', animate: 'slideFromTop' });
+                                this.voltar();
+                            },
+                            err =>
+                            {
+                                this.toastr.warningToastr('Houve um erro ao atualizar o Funcionário! Erro: ' + err, 'Erro', { position: 'top-center', animate: 'slideFromTop' });
+                                console.error(err);
+                            }
+                        );
+                        return null;
+                    }
+                });
+            } else
+            {
+                var funcionario = {
+                    cpf: this.funcionarioForm.get('cpf').value,
+                    nome: this.funcionarioForm.get('nome').value,
+                    dtNasc: this.funcionarioForm.get('dtNasc').value,
+                    login: this.funcionarioForm.get('login').value,
                 }
-            );
+
+                this.adminService.updateFuncionario(funcionario).subscribe(
+                    () =>
+                    {
+                        this.toastr.successToastr('Dados atualizados com sucesso!', 'Status', { position: 'top-center', animate: 'slideFromTop' });
+                        this.voltar();
+                    },
+                    err =>
+                    {
+                        this.toastr.warningToastr('Houve um erro ao atualizar o Funcionário! Erro: ' + err, 'Erro', { position: 'top-center', animate: 'slideFromTop' });
+                        console.error(err);
+                    }
+                );
+            }
         }
     }
-
 }
 
 function validarData(control: AbstractControl): { [key: string]: any } | null

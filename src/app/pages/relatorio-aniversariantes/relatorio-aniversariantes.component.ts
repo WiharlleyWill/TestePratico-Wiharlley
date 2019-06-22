@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Employee } from "../utilitarios/employee"
-import { AdminService, Veiculo } from '../../services/admin.service'
+import { AdminService } from '../../services/admin.service'
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { LocalDataSource } from "ng2-smart-table";
 import { ExcelService } from '../../services/excel.service';
@@ -121,7 +121,7 @@ export class RelatorioAniversariantesComponent implements OnInit
                     showFoot: 'lastPage',
                     //foot: [["", "", "", "", "Em aberto: " + this.naoFinalizadosTratados, "", "Cupons: " + this.totalCuponsTratados, "Total: " + this.totalTratado]]
                 });
-                doc.save('Relatório aniversariantes: ' + this.sMes + '. Exportado: ' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear() + '.pdf');
+                doc.save('Relatório aniversariantes: ' + this.sMes + '. Exportado: ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + '.pdf');
                 break;
 
             //Excel
@@ -139,7 +139,7 @@ export class RelatorioAniversariantesComponent implements OnInit
                     });
                 });
 
-                this.excelService.exportAsExcelFile(auxV, 'Relatório aniversariantes: ' + this.sMes + '. Exportado: ' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear());
+                this.excelService.exportAsExcelFile(auxV, 'Relatório aniversariantes: ' + this.sMes + '. Exportado: ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
                 break;
 
             //CSV
@@ -150,7 +150,7 @@ export class RelatorioAniversariantesComponent implements OnInit
                     decimalseparator: '.',
                     showLabels: true,
                     showTitle: true,
-                    title: 'Relatório aniversariantes: ' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear(),
+                    title: 'Relatório aniversariantes: ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear(),
                     useBom: true,
                     noDownload: false,
                     headers: ["Nome", "Login", "CPF", "Data de Nascimento", "CPF (Resp. Cadastro)", "Data de Cadastro"],
@@ -170,7 +170,7 @@ export class RelatorioAniversariantesComponent implements OnInit
                     });
                 });
 
-                new Angular5Csv(auxV, 'Relatório aniversariantes: ' + this.sMes + '. Exportado: ' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear(), options);
+                new Angular5Csv(auxV, 'Relatório aniversariantes: ' + this.sMes + '. Exportado: ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear(), options);
                 break;
         }
     }

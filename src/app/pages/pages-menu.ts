@@ -28,13 +28,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: "consultar/",
         children: [
             {
-                title: "Funcionário",
-                link: "consultar-funcionario",
-            },
-            {
                 title: "Veículo",
                 link: "consultar-veiculo",
+            },
+            {
+                title: "Funcionário",
+                link: "consultar-funcionario",
             }
+            
         ],
     },
     {

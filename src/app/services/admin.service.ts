@@ -11,14 +11,16 @@ export interface Veiculo
     anoModelo: string
     chassi: string
     dtCadastro: string
-    timestampCadastro: number
-    dtDesativacao: any
-    timestampDesativacao: number
+    timestampCadastro: any
+    dtDesativacao: string
+    dtAtivacao: string
+    timestampAtivacao: any
+    timestampDesativacao: any
     modelo: string
     cor: string
     consumoMedio: number
     numeroPassageiros: number
-    idFuncionario: string
+    cpfFuncionario: string
     nomeFuncionario: string
 }
 
@@ -42,20 +44,21 @@ export class AdminService
     item: any;
     constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
 
-    //CadastrarVeiculo
+    //Cadastrar veiculo
     setVeiculo(veiculo: Veiculo): Observable<any>
     {
         console.log("Clicou salvar");
         return this.http.post(`/veiculos/registrarVeiculo`, veiculo);
     }
 
-    //CadastrarFuncionario
+    //Cadastrar funcionario
     setFuncionario(funcionario: Funcionario): Observable<any>
     {
         console.log("Clicou salvar");
         return this.http.post(`/funcionarios/registrarFuncionario`, funcionario);
     }
 
+    //Recuperar funcionario por CPF
     getFuncionarioCPF(cpf): Observable<any>
     {
         return this.http.get(`/funcionarios/buscaCPF`, {
@@ -63,6 +66,7 @@ export class AdminService
         });
     }
 
+    //Recuperar funcionario pelo nome
     getFuncionarioNome(nome): Observable<any>
     {
         return this.http.get(`/funcionarios/buscaNome`, {
@@ -76,6 +80,7 @@ export class AdminService
         return this.http.post(`/funcionarios/updateFuncionario`, funcionario);
     }
 
+    //Recuperar veiculo pela placa
     getVeiculoPlaca(placa): Observable<any>
     {
         return this.http.get(`/veiculos/buscaPlaca`, {
@@ -83,6 +88,7 @@ export class AdminService
         });
     }
 
+    //Recuperar veiculo pelo modelo
     getVeiculoModelo(modelo): Observable<any>
     {
         return this.http.get(`/veiculos/buscaModelo`, {
@@ -90,13 +96,45 @@ export class AdminService
         });
     }
 
+    //Recuperar aniversariantes pelo mes
     getAniversariantes(mes): Observable<any>
     {
         return this.http.get(`/funcionarios/buscaAniversariantes`, {
             headers: { Authorization: ` ${this.authenticationService.getToken()}`, search: mes }
         });
     }
+    
+    //Recuperar veiculos ativados
+    getVeiculosAtivados(date1, date2): Observable<any>
+    {   
+        console.log('date: ' + date1);
+        console.log('date2: ' + date2);
+        return this.http.get(`/veiculos/buscaAtivados`, {
+            headers: { Authorization: ` ${this.authenticationService.getToken()}`, search: '' + date1,  search2: '' + date2}
+        });
+    }
 
+    //recuperar dados pelo login
+    getLoginFuncionario(login): Observable<any>
+    {
+        return this.http.get(`/funcionarios/buscaLogin`, {
+            headers: { Authorization: ` ${this.authenticationService.getToken()}`, search: login }
+        });
+    }
+
+    //recuperar dados pelo chassi
+    getVeiculoChassi(chassi): Observable<any>
+    {
+        return this.http.get(`/veiculos/buscaChassi`, {
+            headers: { Authorization: ` ${this.authenticationService.getToken()}`, search: chassi }
+        });
+    }
+
+    //Atualizar veiculo
+    updateVeiculo(veiculo: Veiculo): Observable<any>
+    {
+        return this.http.post(`/veiculos/updateVeiculo`, veiculo);
+    }
 
 
 

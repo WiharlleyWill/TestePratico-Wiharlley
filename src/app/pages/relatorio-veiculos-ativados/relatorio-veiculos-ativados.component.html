@@ -1,3 +1,61 @@
-<p>
-  relatorio-veiculos-ativados works!
-</p>
+<nb-card [size]="nbSize">
+  <nb-card-header>
+    RELATÓRIO VEÍCULOS ATIVADOS
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-auto">
+        <label>Período</label>
+        <div style="white-space:pre-line"></div>
+        <p-calendar [(ngModel)]="rangeDates" [inputStyle]="{'overflow': 'visible', 'width':'175px', 'height': '33px'}"
+          selectionMode="range" [readonlyInput]="true" [maxDate]="maxDateValue" [showIcon]="true" dateFormat="dd/mm/yy"
+          [locale]="pt" (onFocus)="dataClicado(true)" (onClose)="dataClicado(false)"></p-calendar>
+      </div>
+
+      <div class="col-auto">
+        <button type="button" class="btn btn-primary mt-4" (click)="gerarRelatorio()">
+          <span class="glyphicon glyphicon-search"></span> Buscar
+        </button>
+      </div>
+    </div>
+
+    <div class="row mt-1" *ngIf="bExibirTabela">
+      <div class="col-sm text-right">
+        <button type="button" class="btn btn-primary" (click)="htmlInsideModal.open()">
+          <span class="glyphicon glyphicon-export"></span> Exportar
+        </button>
+        <modal #htmlInsideModal>
+          <ng-template #modalHeader>
+            <h2>Escolha o tipo de arquivo</h2>
+          </ng-template>
+          <ng-template #modalBody>
+            <div class="row">
+              <div class="col-sm">
+                <button type="button" class="btn btn-danger" (click)="exportar(0)"><span class="fas fa-file-pdf"
+                    style='font-size:30px'></span> .PDF
+                </button>
+              </div>
+              <div class="col-sm">
+                <button type="button" class="btn btn-success" (click)="exportar(1)"><span class="fas fa-file-excel"
+                    style='font-size:30px'></span> .Excel
+                </button>
+              </div>
+              <div class="col-sm">
+                <button type="button" class="btn btn-info" (click)="exportar(2)"><span class="fas fa-file-csv"
+                    style='font-size:30px'></span> .CSV
+                </button>
+              </div>
+            </div>
+          </ng-template>
+        </modal>
+      </div>
+    </div>
+
+    <div class="row mt-2" *ngIf="bExibirTabela">
+      <div class="col-sm">
+        <ng2-smart-table [settings]="settings" [source]="source">
+        </ng2-smart-table>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

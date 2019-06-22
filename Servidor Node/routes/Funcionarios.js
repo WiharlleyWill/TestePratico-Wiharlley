@@ -55,7 +55,7 @@ funcionarios.post('/login', (req, res) => {
                 })
                 res.json({ token: token, cpf: funcionario.dataValues.cpf })
             } else {
-                res.send('Funcionario não existe')
+                res.send(false)
             }
         })
         .catch(err => {
@@ -135,6 +135,25 @@ funcionarios.get('/buscaAniversariantes', (req, res) => {
                 res.json(funcionario)
             } else {
                 console.log('falso')
+                res.send(false);
+            }
+        })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+})
+
+funcionarios.get('/buscaLogin', (req, res) => {
+    console.log('Dados: ' + JSON.stringify(req.headers.search))
+    Funcionarios.findOne({
+        where: {
+            login: req.headers.search
+        }
+    })
+        .then(funcionario => {
+            if (funcionario) {
+                res.json(funcionario)
+            } else {
                 res.send(false);
             }
         })

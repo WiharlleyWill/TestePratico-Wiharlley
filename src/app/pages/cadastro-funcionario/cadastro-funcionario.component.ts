@@ -40,32 +40,53 @@ export class CadastroFuncionarioComponent implements OnInit
         this.submitted = true;
         if (this.cadastroForm.valid)
         {
-            var date = new Date();
-            var dadosFuncionario: Funcionario = {
-                cpf: this.cadastroForm.get('cpf').value,
-                nome: this.cadastroForm.get('nome').value,
-                dtNasc: this.cadastroForm.get('dtNasc').value,
-                login: this.cadastroForm.get('login').value,
-                senha: this.cadastroForm.get('senha').value,
-                dtCadastro: this.adminService.tratarData(date.getDate()) + '/' + this.adminService.tratarData((date.getMonth() + 1)) + '/' + date.getFullYear(),
-                timestampCadastro: date.getTime(),
-                cpfResponsavelCadastro: localStorage.getItem('cpf'),
-                mesAniversario: this.cadastroForm.get('dtNasc').value.substring(3,5)
-            };
-            
-            this.adminService.setFuncionario(dadosFuncionario).subscribe(
-                () =>
+            this.adminService.getFuncionarioCPF(this.cadastroForm.get('cpf').value).subscribe(dados =>
+            {
+                if (dados !== false)
                 {
-                    this.toastr.successToastr('Funcionário cadastrado com sucesso!', 'Status', { position: 'top-center', animate: 'slideFromTop' });
-                    this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() =>
-                        this.router.navigate(["/pages/cadastrar-funcionario"]));
-                },
-                err =>
+                    this.toastr.errorToastr('Este CPF está vínculado a um usuário no sistema!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
+                    return null;
+                } else
                 {
-                    this.toastr.warningToastr('Houve um erro ao cadastrar o Funcionário! Erro: ' + err, 'Erro', { position: 'top-center', animate: 'slideFromTop' });
-                    console.error(err);
+                    return this.adminService.getLoginFuncionario(this.cadastroForm.get('login').value).subscribe(dados =>
+                    {
+                        if (dados !== false)
+                        {
+                            this.toastr.errorToastr('Este Login está vínculado a um usuário no sistema!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
+                            return null;
+                        } else
+                        {
+                            var date = new Date();
+                            var dadosFuncionario: Funcionario = {
+                                cpf: this.cadastroForm.get('cpf').value,
+                                nome: this.cadastroForm.get('nome').value,
+                                dtNasc: this.cadastroForm.get('dtNasc').value,
+                                login: this.cadastroForm.get('login').value,
+                                senha: this.cadastroForm.get('senha').value,
+                                dtCadastro: this.adminService.tratarData(date.getDate()) + '/' + this.adminService.tratarData((date.getMonth() + 1)) + '/' + date.getFullYear(),
+                                timestampCadastro: date.getTime(),
+                                cpfResponsavelCadastro: localStorage.getItem('cpf'),
+                                mesAniversario: this.cadastroForm.get('dtNasc').value.substring(3, 5)
+                            };
+
+                            this.adminService.setFuncionario(dadosFuncionario).subscribe(
+                                () =>
+                                {
+                                    this.toastr.successToastr('Funcionário cadastrado com sucesso!', 'Status', { position: 'top-center', animate: 'slideFromTop' });
+                                    this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() =>
+                                        this.router.navigate(["/pages/cadastrar-funcionario"]));
+                                },
+                                err =>
+                                {
+                                    this.toastr.warningToastr('Houve um erro ao cadastrar o Funcionário! Erro: ' + err, 'Erro', { position: 'top-center', animate: 'slideFromTop' });
+                                    console.error(err);
+                                }
+                            );
+                            return null
+                        }
+                    });
                 }
-            );
+            });
         } else
         {
             this.toastr.warningToastr('Preencha corretamente todos os campos!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
@@ -135,5 +156,6 @@ function cpfVerdadeiro(control: AbstractControl): { [key: string]: any } | null
     if (Resto != parseInt(strCPF.substring(10, 11))) return { cpfValido: true };
     return null;
 }
+
 
 

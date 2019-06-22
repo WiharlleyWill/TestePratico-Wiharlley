@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { AdminService, Funcionario } from '../../services/admin.service'
+import { AdminService, Veiculo } from '../../services/admin.service'
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { LocalDataSource } from "ng2-smart-table";
 import { Employee } from "../utilitarios/employee"
@@ -14,9 +14,13 @@ export class ConsultarVeiculoComponent implements OnInit
 {
     bExibirVeiculo: boolean = false;
     exibirTabela: boolean = false;
+    submitted: boolean = false;
+    auxTimeDesativacao: any = '';
+    auxTimeAtivacao: any = '';
     veiculoForm: FormGroup;
     buscaForm: FormGroup;
     empSelectedAtivo = 0;
+    antigoEmpSelect = 0;
     employeeAtivo: Employee[];
     date = new Date();
     source: LocalDataSource = new LocalDataSource();
@@ -63,6 +67,7 @@ export class ConsultarVeiculoComponent implements OnInit
             anoModelo: ['', [Validators.required, Validators.minLength(4)]],
             chassi: ['', [Validators.required, Validators.minLength(40)]],
             dtCadastro: ['', Validators.required],
+            dtAtivacao: ['- - -'],
             dtDesativacao: ['- - -'],
             modelo: ['', [Validators.required, Validators.minLength(30)]],
             cor: [''],
@@ -76,7 +81,6 @@ export class ConsultarVeiculoComponent implements OnInit
         this.veiculoForm.get('dtCadastro').disable();
         this.veiculoForm.get('dtDesativacao').disable();
         this.veiculoForm.get('modelo').disable();
-        //this.adminService.tratarData(this.date.getDate()) + '/' + this.adminService.tratarData((this.date.getMonth() + 1)) + '/' + this.date.getFullYear()
         this.employeeAtivo = [{ Id: 0, Name: 'Sim', value: true }, { Id: 1, Name: 'Não', value: false }];
 
     }
@@ -89,18 +93,33 @@ export class ConsultarVeiculoComponent implements OnInit
             {
                 if (dados !== false)
                 {
+
+                    if (dados.dtDesativacao === '- - -')
+                    {
+                        this.empSelectedAtivo = 0;
+                    } else
+                    {
+                        this.empSelectedAtivo = 1;
+                    }
+                    this.antigoEmpSelect = this.empSelectedAtivo;
+
+                    this.auxTimeDesativacao = dados.timestampDesativacao;
+                    this.auxTimeAtivacao = dados.timestampAtivacao;
+
                     this.veiculoForm.get('placa').patchValue(dados.placa);
                     this.veiculoForm.get('ativo').patchValue(dados.ativo);
                     this.veiculoForm.get('anoFabricacao').patchValue(dados.anoFabricacao);
                     this.veiculoForm.get('anoModelo').patchValue(dados.anoModelo);
                     this.veiculoForm.get('chassi').patchValue(dados.chassi);
                     this.veiculoForm.get('dtCadastro').patchValue(dados.dtCadastro);
+                    this.veiculoForm.get('dtAtivacao').patchValue(dados.dtAtivacao);
                     this.veiculoForm.get('dtDesativacao').patchValue(dados.dtDesativacao);
                     this.veiculoForm.get('modelo').patchValue(dados.modelo);
                     this.veiculoForm.get('cor').patchValue(dados.cor);
                     this.veiculoForm.get('consumoMedio').patchValue(dados.consumoMedio);
                     this.veiculoForm.get('numeroPassageiros').patchValue(dados.numeroPassageiros);
                     this.bExibirVeiculo = true;
+
                 } else
                 {
                     this.toastr.warningToastr('Veículo não encontrado!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
@@ -116,22 +135,43 @@ export class ConsultarVeiculoComponent implements OnInit
                     if (dados !== false)
                     {
                         var aux = dados;
+                        var auxAtivo;
                         if (aux.length >= 2)
                         {
                             const auxDados = [];
                             for (var i = 0; i < aux.length; i++)
                             {
+                                if (aux[i].dtDesativacao === '- - -')
+                                {
+                                    this.empSelectedAtivo = 0;
+                                } else
+                                {
+                                    this.empSelectedAtivo = 1;
+                                }
+                                if (aux[i].ativo == 0)
+                                {
+                                    auxAtivo = 'Sim';
+                                } else
+                                {
+                                    auxAtivo = 'Não';
+                                }
+
                                 auxDados.push({
                                     placa: aux[i].placa,
-                                    ativo: aux[i].ativo,
+                                    ativo: auxAtivo,
                                     anoFabricacao: aux[i].anoFabricacao,
                                     anoModelo: aux[i].anoModelo,
                                     chassi: aux[i].chassi,
                                     dtCadastro: aux[i].dtCadastro,
+                                    dtAtivacao: aux[i].dtAtivacao,
+                                    dtDesativacao: aux[i].dtDesativacao,
                                     modelo: aux[i].modelo,
                                     cor: aux[i].cor,
                                     consumoMedio: aux[i].consumoMedio,
-                                    numeroPassageiros: aux[i].numeroPassageiros
+                                    numeroPassageiros: aux[i].numeroPassageiros,
+                                    empSelectedAtivo: this.empSelectedAtivo,
+                                    timestampDesativacao: aux[i].timestampDesativacao,
+                                    timestampAtivacao: aux[i].timestampAtivacao
                                 });
                             }
                             this.source.load(auxDados);
@@ -139,12 +179,25 @@ export class ConsultarVeiculoComponent implements OnInit
                         } else
                         {
                             var aux = dados;
+                            if (aux[0].dtDesativacao === '- - -')
+                            {
+                                this.empSelectedAtivo = 0;
+                            } else
+                            {
+                                this.empSelectedAtivo = 1;
+                            }
+                            this.antigoEmpSelect = this.empSelectedAtivo;
+
+                            this.auxTimeDesativacao = aux[0].timestampDesativacao;
+                            this.auxTimeAtivacao = aux[0].timestampAtivacao;
+
                             this.veiculoForm.get('placa').patchValue(aux[0].placa);
                             this.veiculoForm.get('ativo').patchValue(aux[0].ativo);
                             this.veiculoForm.get('anoFabricacao').patchValue(aux[0].anoFabricacao);
                             this.veiculoForm.get('anoModelo').patchValue(aux[0].anoModelo);
                             this.veiculoForm.get('chassi').patchValue(aux[0].chassi);
                             this.veiculoForm.get('dtCadastro').patchValue(aux[0].dtCadastro);
+                            this.veiculoForm.get('dtAtivacao').patchValue(dados.dtAtivacao);
                             this.veiculoForm.get('dtDesativacao').patchValue(aux[0].dtDesativacao);
                             this.veiculoForm.get('modelo').patchValue(aux[0].modelo);
                             this.veiculoForm.get('cor').patchValue(aux[0].cor);
@@ -167,11 +220,70 @@ export class ConsultarVeiculoComponent implements OnInit
             }
     }
 
+    salvar()
+    {
+        this.submitted = true;
+        if (this.veiculoForm.valid)
+        {
+
+            if (this.empSelectedAtivo == 0 && this.empSelectedAtivo !== this.antigoEmpSelect)
+            {
+                this.auxTimeDesativacao = '';
+                this.veiculoForm.get('dtAtivacao').patchValue(this.adminService.tratarData(this.date.getDate()) + '/' + this.adminService.tratarData((this.date.getMonth() + 1)) + '/' + this.date.getFullYear());
+                this.auxTimeAtivacao = this.date.getFullYear() + '-' + this.adminService.tratarData(this.date.getMonth() + 1) + '-' + this.adminService.tratarData(this.date.getDate());
+                this.veiculoForm.get('dtDesativacao').patchValue('- - -');
+            } else
+                if (this.empSelectedAtivo !== this.antigoEmpSelect)
+                {
+                    this.auxTimeAtivacao = '';
+                    this.auxTimeDesativacao = this.date.getFullYear() + '-' + this.adminService.tratarData(this.date.getMonth() + 1) + '-' + this.adminService.tratarData(this.date.getDate());
+                    this.veiculoForm.get('dtDesativacao').patchValue(this.adminService.tratarData(this.date.getDate()) + '/' + this.adminService.tratarData((this.date.getMonth() + 1)) + '/' + this.date.getFullYear());
+                    this.veiculoForm.get('dtAtivacao').patchValue('- - -');
+                }
+
+            var dadosVeiculo: Veiculo = {
+                placa: this.veiculoForm.get('placa').value,
+                ativo: this.veiculoForm.get('ativo').value,
+                anoFabricacao: this.veiculoForm.get('anoFabricacao').value,
+                anoModelo: this.veiculoForm.get('anoModelo').value,
+                chassi: this.veiculoForm.get('chassi').value,
+                dtCadastro: this.veiculoForm.get('dtCadastro').value,
+                timestampCadastro: this.date.getTime(),
+                dtAtivacao: this.veiculoForm.get('dtAtivacao').value,
+                timestampAtivacao: this.auxTimeAtivacao,
+                dtDesativacao: this.veiculoForm.get('dtDesativacao').value,
+                timestampDesativacao: this.auxTimeDesativacao,
+                modelo: this.veiculoForm.get('modelo').value,
+                cor: this.veiculoForm.get('cor').value,
+                consumoMedio: this.veiculoForm.get('consumoMedio').value,
+                numeroPassageiros: this.veiculoForm.get('numeroPassageiros').value,
+                cpfFuncionario: localStorage.getItem('cpf'),
+                nomeFuncionario: localStorage.getItem('usuario')
+            };
+            this.adminService.updateVeiculo(dadosVeiculo).subscribe(
+                () =>
+                {
+                    this.toastr.successToastr('Dados atualizados com sucesso!', 'Status', { position: 'top-center', animate: 'slideFromTop' });
+                    this.voltar();
+                },
+                err =>
+                {
+                    this.toastr.warningToastr('Houve um erro ao atualizar o Veículo! Erro: ' + err, 'Erro', { position: 'top-center', animate: 'slideFromTop' });
+                    console.error(err);
+                }
+            );
+        }
+    }
+
     public onUserRowSelect(event)
     {
-        console.log(event);
         if (event.selected.length > 0)
         {
+            this.antigoEmpSelect = event.data.empSelectedAtivo;
+            this.empSelectedAtivo = this.antigoEmpSelect;
+            this.auxTimeDesativacao = event.data.timestampDesativacao;
+            this.auxTimeAtivacao = event.data.timestampAtivacao;
+
             this.veiculoForm.get('placa').patchValue(event.data.placa);
             this.veiculoForm.get('ativo').patchValue(event.data.ativo);
             this.veiculoForm.get('anoFabricacao').patchValue(event.data.anoFabricacao);
