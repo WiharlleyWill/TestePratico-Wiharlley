@@ -32,7 +32,7 @@ export class LoginComponent
             }
 
             this.auth.login(credentials).subscribe(dados =>
-            {   
+            {
                 console.log(dados);
                 if (this.rememberMe)
                 {
@@ -45,29 +45,28 @@ export class LoginComponent
                 }
                 console.log(dados.cpf);
                 localStorage.setItem('cpf', dados.cpf);
-                this.router.navigateByUrl('/pages/dashboard');
-
-                //this.router.navigate(['/pages/dashboard']);
-            },
-                err =>
-                {
-                    this.mensagem = 'Usuário não encontrado';
-                    console.error(err)
-                });
-        }
-
-
+                setTimeout(() => (this.router.navigateByUrl('/pages/dashboard'), 1000));
+            //this.router.navigate(['/pages/dashboard']);
+        },
+        err =>
+        {
+            this.mensagem = 'Usuário não encontrado';
+            console.error(err)
+        });
     }
-    validar()
+
+
+}
+validar()
+{
+    if (this.usuario && this.password)
     {
-        if (this.usuario && this.password)
-        {
-            return true;
-        }
-        else
-        {
-            this.mensagem = 'Informe usuario e senha';
-            return false;
-        }
+        return true;
     }
+    else
+    {
+        this.mensagem = 'Informe usuario e senha';
+        return false;
+    }
+}
 }

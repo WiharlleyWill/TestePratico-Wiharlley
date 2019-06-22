@@ -56,7 +56,9 @@ export class AuthenticationService {
     }
 
     public isLoggedIn(): boolean {
-        const user = this.getUserDetails()
+        const user = this.getUserDetails();
+        console.log("Is Loged in");
+        console.log(user);
         if (user) {
             return user.exp > Date.now() / 1000
         } else {
@@ -71,7 +73,6 @@ export class AuthenticationService {
             map((data: TokenResponse) => {
                 if (data.token)
                 {
-                    console.log(data);
                     this.saveToken(data.token);
                 }
                 return data
@@ -80,12 +81,6 @@ export class AuthenticationService {
 
         return request
     }
-/*
-    public profile(): Observable<any> {
-        return this.http.get(`/users/profile`, {
-            headers: { Authorization: ` ${this.getToken()}` }
-        })
-    }*/
 
     public logout(): void {
         this.token = ''

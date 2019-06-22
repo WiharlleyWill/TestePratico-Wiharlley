@@ -134,6 +134,7 @@ export class ConsultarVeiculoComponent implements OnInit
                 {
                     if (dados !== false)
                     {
+                        console.log(dados);
                         var aux = dados;
                         var auxAtivo;
                         if (aux.length >= 2)
@@ -177,7 +178,7 @@ export class ConsultarVeiculoComponent implements OnInit
                             this.source.load(auxDados);
                             this.exibirTabela = true;
                         } else
-                        {
+                        if(aux.length == 1){
                             var aux = dados;
                             if (aux[0].dtDesativacao === '- - -')
                             {
@@ -205,6 +206,9 @@ export class ConsultarVeiculoComponent implements OnInit
                             this.veiculoForm.get('numeroPassageiros').patchValue(aux[0].numeroPassageiros);
                             this.bExibirVeiculo = true;
                             this.exibirTabela = false;
+                        } else
+                        {
+                            this.toastr.warningToastr('Veículo não encontrado!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
                         }
                     } else
                     {

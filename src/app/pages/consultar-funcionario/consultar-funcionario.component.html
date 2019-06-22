@@ -9,13 +9,13 @@
                     <div class="col-auto">
                         <label>CPF</label>
                         <div style="white-space:pre-line"></div>
-                        <input type="text" formControlName="cpf" class="form-control"
+                        <input type="text" formControlName="cpf" class="form-control inputCPF"
                             [textMask]="{mask: maskCPF,guide:false}" />
                     </div>
-                    <div class="col-auto">
+                    <div class="col-sm-5">
                         <label>Nome</label>
                         <div style="white-space:pre-line"></div>
-                        <input type="text" formControlName="nome" class="form-control" />
+                        <input type="text" formControlName="nome" class="form-control" maxlength="40"/>
                     </div>
 
                     <div class="col-auto">

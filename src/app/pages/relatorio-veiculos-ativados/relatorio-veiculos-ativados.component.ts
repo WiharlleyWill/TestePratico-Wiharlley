@@ -117,6 +117,7 @@ export class RelatorioVeiculosAtivadosComponent implements OnInit
                                 anoFabricacao: dados[i].anoFabricacao,
                                 anoModelo: dados[i].anoModelo,
                                 modelo: dados[i].modelo,
+                                consumoMedio: dados[i].consumoMedio,
                                 cor: dados[i].cor,
                                 numeroPassageiros: dados[i].numeroPassageiros,
                                 dtCadastro: dados[i].dtCadastro,
@@ -170,12 +171,12 @@ export class RelatorioVeiculosAtivadosComponent implements OnInit
                 let corpo: any = [];
                 this.veiculosAtivados.forEach(dado =>
                 {
-                    var aux = [dado.placa, dado.ativo, dado.dtAtivacao, dado.anoFabricacao, dado.anoModelo, dado.modelo, dado.cor, dado.numeroPassageiros, dado.dtCadastro, dado.cpfFuncionario, dado.nomeFuncionario];
+                    var aux = [dado.placa, dado.ativo, dado.dtAtivacao, dado.anoFabricacao, dado.anoModelo, dado.modelo, dado.consumoMedio, dado.cor, dado.numeroPassageiros, dado.dtCadastro, dado.cpfFuncionario, dado.nomeFuncionario];
                     corpo.push(aux);
                 });
 
                 doc.autoTable({
-                    head: [["Placa", "Ativo", "D. Ativação", "Ano Fab.", "Ano Modelo", "Modelo", "Cor", "Num. Passag.", "D. Cadastro", "CPF Funcionario", "Nome Funcionario"]],
+                    head: [["Placa", "Ativo", "D. Ativação", "Ano Fab.", "Ano Modelo", "Modelo", "Consumo Médio", "Cor", "Num. Passag.", "D. Cadastro", "CPF Funcionario", "Nome Funcionario"]],
                     theme: 'grid',
                     body: corpo,
                     margin: { top: 10, right: 5, bottom: 10, left: 5 },
@@ -197,7 +198,9 @@ export class RelatorioVeiculosAtivadosComponent implements OnInit
                         Ativo: dado.ativo,
                         DtAtivacao: dado.dtAtivacao,
                         AnoFabricacao: dado.anoFabricacao,
-                        AnoModelo: dado.modelo,
+                        AnoModelo: dado.anoModelo,
+                        Modelo: dado.modelo,
+                        ConsumoMedio: dado.consumoMedio,
                         Cor: dado.cor,
                         NumeroPassageiros: dado.numeroPassageiros,
                         DtCadastro: dado.dtCadastro,
@@ -220,7 +223,7 @@ export class RelatorioVeiculosAtivadosComponent implements OnInit
                     title: 'Relatório veículos ativados ' + ' Exportado: ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear(),
                     useBom: true,
                     noDownload: false,
-                    headers: ["Placa", "Ativo", "D. Ativação", "Ano Fab.", "Ano Modelo", "Modelo", "Cor", "Num. Passageiros", "D. Cadastro", "CPF Funcionario", "Nome Funcionario"],
+                    headers: ["Placa", "Ativo", "D. Ativação", "Ano Fab.", "Ano Modelo", "Modelo", "Consumo Médio", "Cor", "Num. Passageiros", "D. Cadastro", "CPF Funcionario", "Nome Funcionario"],
                     nullToEmptyString: true,
                 };
 
@@ -233,7 +236,9 @@ export class RelatorioVeiculosAtivadosComponent implements OnInit
                         Ativo: dado.ativo,
                         DtAtivacao: dado.dtAtivacao,
                         AnoFabricacao: dado.anoFabricacao,
-                        AnoModelo: dado.modelo,
+                        AnoModelo: dado.anoModelo,
+                        Modelo: dado.modelo,
+                        ConsumoMedio: dado.consumoMedio,
                         Cor: dado.cor,
                         NumeroPassageiros: dado.numeroPassageiros,
                         DtCadastro: dado.dtCadastro,

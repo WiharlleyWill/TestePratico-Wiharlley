@@ -47,7 +47,7 @@ export class ConsultarFuncionarioComponent implements OnInit
     {
         this.buscaForm = this.formBuilder.group({
             nome: ['', [Validators.required, Validators.minLength(3)]],
-            cpf: ['077.899.156-30', [Validators.required, Validators.minLength(14)]]
+            cpf: ['', [Validators.required, Validators.minLength(14)]]
         });
 
         this.funcionarioForm = this.formBuilder.group({
@@ -107,7 +107,8 @@ export class ConsultarFuncionarioComponent implements OnInit
                                     dtNasc: aux[i].dtNasc,
                                     login: aux[i].login,
                                     nome: aux[i].nome,
-                                    timestampCadastro: aux[i].timestampCadastro
+                                    timestampCadastro: aux[i].timestampCadastro,
+                                    antigoLogin: aux[i].login
                                 });
                             }
                             this.source.load(auxDados);
@@ -124,7 +125,7 @@ export class ConsultarFuncionarioComponent implements OnInit
                             this.funcionarioForm.get('timestampCadastro').patchValue(aux[0].timestampCadastro);
                             this.exibirTabela = false;
                             this.bExibirFuncionario = true;
-                            this.antigoLogin = dados.login;
+                            this.antigoLogin = aux[0].login;
                         }
                     } else
                     {
@@ -154,6 +155,7 @@ export class ConsultarFuncionarioComponent implements OnInit
             this.funcionarioForm.get('timestampCadastro').patchValue(event.data.timestampCadastro);
             this.exibirTabela = false;
             this.bExibirFuncionario = true;
+            this.antigoLogin = event.data.antigoLogin;
         }
     }
 
@@ -173,6 +175,9 @@ export class ConsultarFuncionarioComponent implements OnInit
 
     salvarFuncionario()
     {
+        console.log(this.antigoLogin);
+        console.log(this.funcionarioForm.get('login').value);
+
         if (this.funcionarioForm.valid)
         {
             if (this.antigoLogin !== this.funcionarioForm.get('login').value)
