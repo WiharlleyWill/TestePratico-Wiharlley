@@ -178,38 +178,39 @@ export class ConsultarVeiculoComponent implements OnInit
                             this.source.load(auxDados);
                             this.exibirTabela = true;
                         } else
-                        if(aux.length == 1){
-                            var aux = dados;
-                            if (aux[0].dtDesativacao === '- - -')
+                            if (aux.length == 1)
                             {
-                                this.empSelectedAtivo = 0;
+                                var aux = dados;
+                                if (aux[0].dtDesativacao === '- - -')
+                                {
+                                    this.empSelectedAtivo = 0;
+                                } else
+                                {
+                                    this.empSelectedAtivo = 1;
+                                }
+                                this.antigoEmpSelect = this.empSelectedAtivo;
+
+                                this.auxTimeDesativacao = aux[0].timestampDesativacao;
+                                this.auxTimeAtivacao = aux[0].timestampAtivacao;
+
+                                this.veiculoForm.get('placa').patchValue(aux[0].placa);
+                                this.veiculoForm.get('ativo').patchValue(aux[0].ativo);
+                                this.veiculoForm.get('anoFabricacao').patchValue(aux[0].anoFabricacao);
+                                this.veiculoForm.get('anoModelo').patchValue(aux[0].anoModelo);
+                                this.veiculoForm.get('chassi').patchValue(aux[0].chassi);
+                                this.veiculoForm.get('dtCadastro').patchValue(aux[0].dtCadastro);
+                                this.veiculoForm.get('dtAtivacao').patchValue(dados.dtAtivacao);
+                                this.veiculoForm.get('dtDesativacao').patchValue(aux[0].dtDesativacao);
+                                this.veiculoForm.get('modelo').patchValue(aux[0].modelo);
+                                this.veiculoForm.get('cor').patchValue(aux[0].cor);
+                                this.veiculoForm.get('consumoMedio').patchValue(aux[0].consumoMedio);
+                                this.veiculoForm.get('numeroPassageiros').patchValue(aux[0].numeroPassageiros);
+                                this.bExibirVeiculo = true;
+                                this.exibirTabela = false;
                             } else
                             {
-                                this.empSelectedAtivo = 1;
+                                this.toastr.warningToastr('Veículo não encontrado!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
                             }
-                            this.antigoEmpSelect = this.empSelectedAtivo;
-
-                            this.auxTimeDesativacao = aux[0].timestampDesativacao;
-                            this.auxTimeAtivacao = aux[0].timestampAtivacao;
-
-                            this.veiculoForm.get('placa').patchValue(aux[0].placa);
-                            this.veiculoForm.get('ativo').patchValue(aux[0].ativo);
-                            this.veiculoForm.get('anoFabricacao').patchValue(aux[0].anoFabricacao);
-                            this.veiculoForm.get('anoModelo').patchValue(aux[0].anoModelo);
-                            this.veiculoForm.get('chassi').patchValue(aux[0].chassi);
-                            this.veiculoForm.get('dtCadastro').patchValue(aux[0].dtCadastro);
-                            this.veiculoForm.get('dtAtivacao').patchValue(dados.dtAtivacao);
-                            this.veiculoForm.get('dtDesativacao').patchValue(aux[0].dtDesativacao);
-                            this.veiculoForm.get('modelo').patchValue(aux[0].modelo);
-                            this.veiculoForm.get('cor').patchValue(aux[0].cor);
-                            this.veiculoForm.get('consumoMedio').patchValue(aux[0].consumoMedio);
-                            this.veiculoForm.get('numeroPassageiros').patchValue(aux[0].numeroPassageiros);
-                            this.bExibirVeiculo = true;
-                            this.exibirTabela = false;
-                        } else
-                        {
-                            this.toastr.warningToastr('Veículo não encontrado!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
-                        }
                     } else
                     {
                         this.toastr.warningToastr('Veículo não encontrado!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });

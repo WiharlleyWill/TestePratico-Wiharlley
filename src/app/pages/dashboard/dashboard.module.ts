@@ -5,11 +5,11 @@ import { ThemeModule } from "../../@theme/theme.module";
 import { DashboardComponent } from "./dashboard.component";
 
 @NgModule({
-  imports: [
-    ThemeModule,
-  ],
-  declarations: [
-      DashboardComponent
-  ],
+    imports: [
+        ThemeModule,
+    ],
+    declarations: [
+        DashboardComponent
+    ],
 })
 export class DashboardModule { }

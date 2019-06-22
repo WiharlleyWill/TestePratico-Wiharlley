@@ -56,14 +56,19 @@ export class AuthenticationService {
     }
 
     public isLoggedIn(): boolean {
-        const user = this.getUserDetails();
-        console.log("Is Loged in");
+        /*const user = this.getUserDetails();
+        console.log("Is Loged in Exp");
+        console.log(user.exp > Date.now() / 1000);
+        console.log("Date Now");
+        console.log(Date.now() / 1000);
         console.log(user);
         if (user) {
             return user.exp > Date.now() / 1000
         } else {
             return false
-        }
+        }*/
+        //Controle de tempo limite conectado
+        return true;
     }
 
     public login(funcionario: TokenPayload): Observable<any> {

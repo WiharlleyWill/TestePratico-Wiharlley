@@ -68,70 +68,70 @@ export class CadastroVeiculosComponent implements OnInit
         this.submitted = true;
         if (this.cadastroForm.valid)
         {
-            
+
             this.adminService.getVeiculoPlaca(this.cadastroForm.get('placa').value).subscribe(dados =>
+            {
+                if (dados !== false)
                 {
-                    if (dados !== false)
+                    this.toastr.errorToastr('Esta placa está vínculado a outro veículo no sistema!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
+                    return null;
+                } else
+                {
+                    return this.adminService.getVeiculoChassi(this.cadastroForm.get('chassi').value).subscribe(dados =>
                     {
-                        this.toastr.errorToastr('Esta placa está vínculado a outro veículo no sistema!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
-                        return null;
-                    } else
-                    {
-                        return this.adminService.getVeiculoChassi(this.cadastroForm.get('chassi').value).subscribe(dados =>
+                        if (dados !== false)
                         {
-                            if (dados !== false)
+                            this.toastr.errorToastr('Este chassi está vínculado a outro veículo no sistema!!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
+                            return null;
+                        } else
+                        {
+                            var auxTimeDesativacao: any = '';
+                            var auxTimeAtivacao: any = '';
+                            if (this.empSelectedAtivo === 0)
                             {
-                                this.toastr.errorToastr('Este chassi está vínculado a outro veículo no sistema!!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
-                                return null;
+                                this.cadastroForm.get('dtAtivacao').patchValue(this.adminService.tratarData(this.date.getDate()) + '/' + this.adminService.tratarData((this.date.getMonth() + 1)) + '/' + this.date.getFullYear());
+                                auxTimeAtivacao = this.date.getFullYear() + '-' + this.adminService.tratarData(this.date.getMonth() + 1) + '-' + this.adminService.tratarData(this.date.getDate())
                             } else
                             {
-                                var auxTimeDesativacao: any = '';
-                                var auxTimeAtivacao: any = '';
-                                if (this.empSelectedAtivo === 0)
-                                {
-                                    this.cadastroForm.get('dtAtivacao').patchValue(this.adminService.tratarData(this.date.getDate()) + '/' + this.adminService.tratarData((this.date.getMonth() + 1)) + '/' + this.date.getFullYear());
-                                    auxTimeAtivacao = this.date.getFullYear() + '-' + this.adminService.tratarData(this.date.getMonth() + 1) + '-' + this.adminService.tratarData(this.date.getDate())
-                                } else
-                                {
-                                    auxTimeDesativacao = this.date.getFullYear() + '-' + this.adminService.tratarData(this.date.getMonth() + 1) + '-' + this.adminService.tratarData(this.date.getDate());
-                                    this.cadastroForm.get('dtAtivacao').patchValue('- - -');
-                                }
-
-                                var dadosVeiculo: Veiculo = {
-                                    placa: this.cadastroForm.get('placa').value,
-                                    ativo: this.cadastroForm.get('ativo').value,
-                                    anoFabricacao: this.cadastroForm.get('anoFabricacao').value,
-                                    anoModelo: this.cadastroForm.get('anoModelo').value,
-                                    chassi: this.cadastroForm.get('chassi').value,
-                                    dtCadastro: this.cadastroForm.get('dtCadastro').value,
-                                    dtAtivacao: this.cadastroForm.get('dtAtivacao').value,
-                                    timestampAtivacao: auxTimeAtivacao,
-                                    timestampCadastro: this.date.getFullYear() + '-' + this.adminService.tratarData(this.date.getMonth() + 1) + '-' + this.adminService.tratarData(this.date.getDate()),
-                                    dtDesativacao: this.cadastroForm.get('dtDesativacao').value,
-                                    timestampDesativacao: auxTimeDesativacao,
-                                    modelo: this.cadastroForm.get('modelo').value,
-                                    cor: this.cadastroForm.get('cor').value,
-                                    consumoMedio: this.cadastroForm.get('consumoMedio').value,
-                                    numeroPassageiros: this.cadastroForm.get('quantPassageiros').value,
-                                    cpfFuncionario: localStorage.getItem('cpf'),
-                                    nomeFuncionario: localStorage.getItem('usuario')
-                                };
-                                this.adminService.setVeiculo(dadosVeiculo).subscribe(
-                                    () =>
-                                    {
-                                        this.toastr.successToastr('Veículo cadastrado com sucesso!', 'Status', { position: 'top-center', animate: 'slideFromTop' });
-                                        this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() =>
-                                            this.router.navigate(['/pages/cadastro-veiculo']));
-                                    },
-                                    err =>
-                                    {
-                                        this.toastr.warningToastr('Houve um erro ao cadastrar o Veículo! Erro: ' + err, 'Erro', { position: 'top-center', animate: 'slideFromTop' });
-                                        console.error(err);
-                                    }
-                                );
+                                auxTimeDesativacao = this.date.getFullYear() + '-' + this.adminService.tratarData(this.date.getMonth() + 1) + '-' + this.adminService.tratarData(this.date.getDate());
+                                this.cadastroForm.get('dtAtivacao').patchValue('- - -');
                             }
-                        });
-                    }
+
+                            var dadosVeiculo: Veiculo = {
+                                placa: this.cadastroForm.get('placa').value,
+                                ativo: this.cadastroForm.get('ativo').value,
+                                anoFabricacao: this.cadastroForm.get('anoFabricacao').value,
+                                anoModelo: this.cadastroForm.get('anoModelo').value,
+                                chassi: this.cadastroForm.get('chassi').value,
+                                dtCadastro: this.cadastroForm.get('dtCadastro').value,
+                                dtAtivacao: this.cadastroForm.get('dtAtivacao').value,
+                                timestampAtivacao: auxTimeAtivacao,
+                                timestampCadastro: this.date.getFullYear() + '-' + this.adminService.tratarData(this.date.getMonth() + 1) + '-' + this.adminService.tratarData(this.date.getDate()),
+                                dtDesativacao: this.cadastroForm.get('dtDesativacao').value,
+                                timestampDesativacao: auxTimeDesativacao,
+                                modelo: this.cadastroForm.get('modelo').value,
+                                cor: this.cadastroForm.get('cor').value,
+                                consumoMedio: this.cadastroForm.get('consumoMedio').value,
+                                numeroPassageiros: this.cadastroForm.get('quantPassageiros').value,
+                                cpfFuncionario: localStorage.getItem('cpf'),
+                                nomeFuncionario: localStorage.getItem('usuario')
+                            };
+                            this.adminService.setVeiculo(dadosVeiculo).subscribe(
+                                () =>
+                                {
+                                    this.toastr.successToastr('Veículo cadastrado com sucesso!', 'Status', { position: 'top-center', animate: 'slideFromTop' });
+                                    this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() =>
+                                        this.router.navigate(['/pages/cadastro-veiculo']));
+                                },
+                                err =>
+                                {
+                                    this.toastr.warningToastr('Houve um erro ao cadastrar o Veículo! Erro: ' + err, 'Erro', { position: 'top-center', animate: 'slideFromTop' });
+                                    console.error(err);
+                                }
+                            );
+                        }
+                    });
+                }
             });
         }
     }

@@ -89,17 +89,19 @@ export class RelatorioAniversariantesComponent implements OnInit
                 this.source.load(this.aniversariantes);
                 this.exibirTabela = true;
             } else
-            {   
+            {
                 this.exibirTabela = false;
                 this.toastr.errorToastr('Não há aniversariantes no período informado!', 'Erro', { position: 'top-center', animate: 'slideFromTop' });
             }
         });
     }
 
-    exportar(tipo) {
+    exportar(tipo)
+    {
         var date = new Date();
 
-        switch (tipo) {
+        switch (tipo)
+        {
             //PDF
             case 0:
                 var doc = new jsPDF('l', 'pt', 'landscape');
@@ -107,8 +109,9 @@ export class RelatorioAniversariantesComponent implements OnInit
                 //doc.autoTable({ html: '#my-table' });
                 // Or JavaScript:
                 let corpo: any = [];
-                this.aniversariantes.forEach(dado => {
-                    var aux = [dado.nome, dado.login, dado.cpf, dado.dtNasc,dado.cpfResponsavelCadastro, dado.dtCadastro];
+                this.aniversariantes.forEach(dado =>
+                {
+                    var aux = [dado.nome, dado.login, dado.cpf, dado.dtNasc, dado.cpfResponsavelCadastro, dado.dtCadastro];
                     corpo.push(aux);
                 });
 
@@ -128,7 +131,8 @@ export class RelatorioAniversariantesComponent implements OnInit
             case 1:
                 var auxV: any = [];
 
-                this.aniversariantes.forEach(dado => {
+                this.aniversariantes.forEach(dado =>
+                {
                     auxV.push({
                         Nome: dado.nome,
                         Login: dado.login,
@@ -159,7 +163,8 @@ export class RelatorioAniversariantesComponent implements OnInit
 
                 var auxV: any = [];
 
-                this.aniversariantes.forEach(dado => {
+                this.aniversariantes.forEach(dado =>
+                {
                     auxV.push({
                         Nome: dado.nome,
                         Login: dado.login,

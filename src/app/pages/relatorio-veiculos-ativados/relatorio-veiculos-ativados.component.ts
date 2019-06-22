@@ -95,7 +95,7 @@ export class RelatorioVeiculosAtivadosComponent implements OnInit
             this.adminService.getVeiculosAtivados(date1, date2).subscribe(dados =>
             {
                 if (dados !== false)
-                {   
+                {
                     this.contPedidos = 0;
                     this.veiculosAtivados = [];
                     if (dados.length > 0)
@@ -143,14 +143,19 @@ export class RelatorioVeiculosAtivadosComponent implements OnInit
         }
     }
 
-    dataClicado(b) {
-        if (b) {
-            if (this.contPedidos < 5) {
+    dataClicado(b)
+    {
+        if (b)
+        {
+            if (this.contPedidos < 5)
+            {
                 this.nbSize = "xlarge"
                 console.log("< 5 cont");
             }
-        } else {
-            if (!this.bExibirTabela || this.contPedidos > 0 && this.contPedidos < 5) {
+        } else
+        {
+            if (!this.bExibirTabela || this.contPedidos > 0 && this.contPedidos < 5)
+            {
                 this.nbSize = "auto"
             }
         }

@@ -58,8 +58,8 @@
                         <label>Ativo</label>
                         <div style="white-space:pre-line"></div>
                         <div style="margin-top: -4px">
-                            <select class="form-control" (change)="change = true" formControlName="ativo" [(ngModel)]="empSelectedAtivo"
-                                (ngModelChange)='ativoAlterado($event)'>
+                            <select class="form-control" (change)="change = true" formControlName="ativo"
+                                [(ngModel)]="empSelectedAtivo" (ngModelChange)='ativoAlterado($event)'>
                                 <option *ngFor=" let emp of employeeAtivo" [value]="emp.Id">{{emp.Name}}
                                 </option>
                             </select>

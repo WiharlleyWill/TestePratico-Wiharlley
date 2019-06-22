@@ -33,20 +33,26 @@ export class LoginComponent
 
             this.auth.login(credentials).subscribe(dados =>
             {
-                console.log(dados);
-                if (this.rememberMe)
+                if (dados !== false)
                 {
-                    localStorage.setItem('rememberMe', 'true');
-                    localStorage.setItem('usuario', this.usuario);
+                    console.log(dados);
+                    if (this.rememberMe)
+                    {
+                        localStorage.setItem('rememberMe', 'true');
+                        localStorage.setItem('usuario', this.usuario);
+                    } else
+                    {
+                        localStorage.setItem('usuario', this.usuario);
+                        localStorage.setItem('rememberMe', 'false');
+                    }
+                    console.log(dados.cpf);
+                    localStorage.setItem('cpf', dados.cpf);
+                    setTimeout(() => (this.router.navigateByUrl('/pages/dashboard'), 1000));
+                    //this.router.navigate(['/pages/dashboard']);
                 } else
                 {
-                    localStorage.setItem('usuario', this.usuario);
-                    localStorage.setItem('rememberMe', 'false');
+                    this.mensagem = 'Usuário não encontrado';
                 }
-                console.log(dados.cpf);
-                localStorage.setItem('cpf', dados.cpf);
-                setTimeout(() => (this.router.navigateByUrl('/pages/dashboard'), 1000));
-            //this.router.navigate(['/pages/dashboard']);
         },
         err =>
         {
